@@ -41,9 +41,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Toma foto como prueba de entrega</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>La ubicación en segundo plano permite seguimiento en tiempo real durante entregas activas</string>
+	<string>StackBot Conductor necesita acceso continuo a tu ubicación para transmitir tu posición durante entregas activas, incluso en segundo plano, para que los clientes puedan rastrear sus pedidos en tiempo real.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>StackBot Conductor necesita acceso a tu ubicación en segundo plano para seguir transmitiendo tu posición durante entregas activas cuando la app no está en primer plano.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Necesitamos tu ubicación para navegación y seguimiento de entregas</string>
+	<string>StackBot Conductor necesita tu ubicación para mostrar tu posición en el mapa durante entregas activas y que los clientes y despachadores puedan seguir el progreso del pedido en tiempo real.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Acceso a fotos para prueba de entrega</string>
 	<key>UIBackgroundModes</key>

@@ -1,5 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import logoImg from "./assets/TheJacket.png";
+import simulatorBaySwing from "./assets/simulator-bay-swing.jpg";
+import simulatorBayLounge from "./assets/simulator-bay-lounge.jpg";
+import lessonClubFitting from "./assets/lesson-club-fitting.jpg";
+import leagueTeamPhoto from "./assets/league-team-photo.jpg";
+import memberTechBay from "./assets/member-tech-bay.jpg";
 
 
 // ─── DESIGN TOKENS — "fairway green jacket" ──────────────────
@@ -91,6 +96,7 @@ function Icon({ name, size = 24, stroke = 1.75, color = "currentColor", style = 
     check: <path {...p} d="M5 12.5l4.5 4.5L19 7" />,
     sun:   <><circle {...p} cx="12" cy="12" r="4" /><path {...p} d="M12 2.5V5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8" /></>,
     moon:  <path {...p} d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" />,
+    chevronDown: <path {...p} d="M5 9l7 7 7-7" />,
   };
   return <svg width={size} height={size} viewBox="0 0 24 24" style={style} aria-hidden="true">{paths[name]}</svg>;
 }
@@ -105,6 +111,41 @@ function Stars({ size = 16, color = C.brass }) {
         </svg>
       ))}
     </span>
+  );
+}
+
+// ─── SCROLL REVEAL ───────────────────────────────────────────
+function useReveal(threshold = 0.15) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (typeof IntersectionObserver === "undefined") { setVisible(true); return; }
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { setVisible(true); io.unobserve(entry.target); }
+      });
+    }, { threshold, rootMargin: "0px 0px -8% 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  return [ref, visible];
+}
+
+function Reveal({ children, as: Tag = "div", delay = 0, zoom = false, className = "", style = {}, ...rest }) {
+  const [ref, visible] = useReveal();
+  return (
+    <Tag
+      ref={ref}
+      className={`${zoom ? "reveal-zoom" : "reveal"} ${visible ? "is-visible" : ""}${className ? ` ${className}` : ""}`}
+      style={{ transitionDelay: visible ? `${delay}ms` : "0ms", ...style }}
+      {...rest}
+    >
+      {children}
+    </Tag>
   );
 }
 
@@ -284,56 +325,19 @@ function Footer({ setPage }) {
 
   return (
     <>
-      {/* Messaging Signup & Social Identity Segment */}
-      <div style={{ background: C.cream, padding: "64px 24px", textAlign: "center" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto" }}>
-          <div style={{
-            display: "flex", gap: 12, background: C.surface, padding: "16px", borderRadius: 16,
-            boxShadow: "0 4px 20px rgba(0,0,0,0.03)", alignItems: "flex-start", textAlign: "left", marginBottom: 40
-          }}>
-            <input type="checkbox" id="sms" style={{ accentColor: C.green, width: 18, height: 18, marginTop: 2, flexShrink: 0 }} />
-            <label htmlFor="sms" style={{ fontSize: 13, color: C.gray, lineHeight: 1.6 }}>
-              Get texts about flash deals, league updates, and upcoming events at The Jacket. Reply STOP anytime to opt out.
-            </label>
-          </div>
-
-          <div>
-            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 18, fontWeight: 700, marginBottom: 20, letterSpacing: 0.3 }}>Follow Us</p>
-            <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
-              {[
-                { href: LINKS.facebook, icon: <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
-                { href: LINKS.instagram, icon: <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg> },
-                { href: LINKS.tiktok, icon: <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.61a8.18 8.18 0 0 0 4.78 1.52V6.68a4.85 4.85 0 0 1-1.01.01z" /></svg> }
-              ].map((soc, idx) => (
-                <a key={idx} href={soc.href} target="_blank" rel="noopener noreferrer"
-                  style={{
-                    width: 48, height: 48, borderRadius: "50%", background: C.white, display: "flex",
-                    alignItems: "center", justifyContent: "center", color: C.dark, border: `1.5px solid ${C.brass}`, transition: "all 0.2s"
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = C.brass; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = C.white; }}
-                >
-                  {soc.icon}
-                </a>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Main Structural Nav Floor */}
-      <footer style={{ background: C.surface, borderTop: `1px solid ${C.grayLight}`, padding: "64px 24px 32px" }}>
+      <footer style={{ background: "#072212", borderTop: "1px solid rgba(255,255,255,0.08)", padding: "64px 24px 32px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
 
-          <div className="responsive-grid responsive-grid-3" style={{ gap: 40, marginBottom: 64 }}>
+          <div className="responsive-grid responsive-grid-3" style={{ gap: 40, marginBottom: 56 }}>
             {/* Primary Global Navigation Map */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {large.map(item => (
                 <div key={item.label} style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 20, fontWeight: 700 }}>
                   {item.href ? (
-                    <a href={item.href} target="_blank" rel="noopener noreferrer" style={{ color: C.black }} onMouseEnter={e => e.currentTarget.style.color = C.green} onMouseLeave={e => e.currentTarget.style.color = C.black}>{item.label}</a>
+                    <a href={item.href} target="_blank" rel="noopener noreferrer" style={{ color: C.white }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = C.white}>{item.label}</a>
                   ) : (
-                    <span onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ color: C.black, cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.green} onMouseLeave={e => e.currentTarget.style.color = C.black}>{item.label}</span>
+                    <span onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ color: C.white, cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = C.white}>{item.label}</span>
                   )}
                 </div>
               ))}
@@ -341,30 +345,65 @@ function Footer({ setPage }) {
 
             {/* Supplementary Links Col 1 */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: C.gray, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Play</p>
+              <p style={{ fontSize: 12, fontWeight: 700, color: "rgba(247,251,248,0.5)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Play</p>
               {small[0].map(item => (
-                <span key={item.label} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ fontSize: 14, fontWeight: 500, color: C.black, cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.green} onMouseLeave={e => e.currentTarget.style.color = C.black}>{item.label}</span>
+                <span key={item.label} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ fontSize: 14, fontWeight: 500, color: "rgba(247,251,248,0.85)", cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = "rgba(247,251,248,0.85)"}>{item.label}</span>
               ))}
             </div>
 
             {/* Supplementary Links Col 2 */}
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: C.gray, textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Events & Community</p>
+              <p style={{ fontSize: 12, fontWeight: 700, color: "rgba(247,251,248,0.5)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Events & Community</p>
               {small[1].map(item => (
-                <span key={item.label} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ fontSize: 14, fontWeight: 500, color: C.black, cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.green} onMouseLeave={e => e.currentTarget.style.color = C.black}>{item.label}</span>
+                <span key={item.label} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ fontSize: 14, fontWeight: 500, color: "rgba(247,251,248,0.85)", cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = "rgba(247,251,248,0.85)"}>{item.label}</span>
               ))}
+            </div>
+          </div>
+
+          {/* Messaging Signup & Social Identity Segment */}
+          <div style={{
+            display: "flex", flexWrap: "wrap", gap: 28, alignItems: "center", justifyContent: "space-between",
+            background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: "28px 32px", marginBottom: 32
+          }}>
+            <div style={{ display: "flex", gap: 12, alignItems: "flex-start", maxWidth: 420 }}>
+              <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 18, height: 18, marginTop: 2, flexShrink: 0 }} />
+              <label htmlFor="sms" style={{ fontSize: 13, color: "rgba(247,251,248,0.7)", lineHeight: 1.6 }}>
+                Get texts about flash deals, league updates, and upcoming events at The Jacket. Reply STOP anytime to opt out.
+              </label>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: 0.3, whiteSpace: "nowrap", color: C.white }}>Follow Us</p>
+              <div style={{ display: "flex", gap: 14 }}>
+                {[
+                  { href: LINKS.facebook, icon: <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
+                  { href: LINKS.instagram, icon: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg> },
+                  { href: LINKS.tiktok, icon: <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.61a8.18 8.18 0 0 0 4.78 1.52V6.68a4.85 4.85 0 0 1-1.01.01z" /></svg> }
+                ].map((soc, idx) => (
+                  <a key={idx} href={soc.href} target="_blank" rel="noopener noreferrer"
+                    style={{
+                      width: 42, height: 42, borderRadius: "50%", background: C.white, display: "flex",
+                      alignItems: "center", justifyContent: "center", color: "#072212", border: `1.5px solid ${C.brass}`, transition: "all 0.2s", flexShrink: 0
+                    }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = C.brass; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = C.white; }}
+                  >
+                    {soc.icon}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Legal Meta Frame */}
           <div style={{
             display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24,
-            borderTop: `1px solid ${C.grayLight}`, paddingTop: 32
+            borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 32
           }}>
             <Logo size={46} />
             <div style={{ textAlign: "right", minWidth: 240 }}>
-              <p style={{ fontSize: 14, fontWeight: 500, color: C.black }}>2000 Matlock Rd, Ste 100, Mansfield, TX 76063</p>
-              <p style={{ fontSize: 12, color: C.gray, marginTop: 4 }}>© 2026 The Jacket LLC. All rights reserved.</p>
+              <p style={{ fontSize: 14, fontWeight: 500, color: C.white }}>2000 Matlock Rd, Ste 100, Mansfield, TX 76063</p>
+              <p style={{ fontSize: 12, color: "rgba(247,251,248,0.6)", marginTop: 4 }}>© 2026 The Jacket LLC. All rights reserved.</p>
             </div>
           </div>
         </div>
@@ -374,7 +413,7 @@ function Footer({ setPage }) {
 }
 
 // ─── HERO (rotating text) ────────────────────────────────────
-const ROTATING_WORDS = ["birthday parties", "date nights", "corporate events", "league play", "family fun"];
+const ROTATING_WORDS = ["Birthday Parties", "Date Nights", "Corporate Events", "League Play", "Family Fun"];
 
 function Hero({ setPage }) {
   const [idx, setIdx] = useState(0);
@@ -396,7 +435,7 @@ function Hero({ setPage }) {
       minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
       position: "relative", overflow: "hidden",
       padding: "172px 24px 96px",
-      background: "linear-gradient(160deg, #0A0B0A 0%, #141614 55%, #1B1D1B 100%)",
+      background: "linear-gradient(160deg, #000000 0%, #0A0A0A 50%, #000000 100%)",
     }}>
       {/* Background Video */}
       <video
@@ -421,26 +460,23 @@ function Hero({ setPage }) {
       <div style={{ position: "absolute", inset: 0, zIndex: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.75) 100%)" }} />
 
       <div style={{ position: "relative", zIndex: 1, maxWidth: 1280, margin: "0 auto", width: "100%" }}>
-        <p className="fade-up" style={{ fontSize: 13, color: C.brass, marginBottom: 22, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase" }}>
-          Premium Indoor Simulation Lounge
-        </p>
-        <h1 className="fade-up-1" style={{
+        <h1 className="fade-up" style={{
           fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 600, fontSize: "clamp(34px, 5.5vw, 64px)",
           color: C.white, lineHeight: 1.18, letterSpacing: "-0.02em", maxWidth: 850, marginBottom: 32,
         }}>
-          Indoor golf<br />reimagined for<br />
+          Indoor Golf<br />Reimagined For<br />
           <span className={cls} style={{ color: C.greenAccent, fontWeight: 700, display: "inline-block", position: "relative", lineHeight: 1.3, paddingBottom: "0.12em" }}>{ROTATING_WORDS[idx]}</span>
         </h1>
-        <p className="fade-up-2" style={{ fontSize: "clamp(15px, 2vw, 17px)", color: "rgba(247,251,248,0.78)", maxWidth: 560, lineHeight: 1.7, marginBottom: 48 }}>
+        <p className="fade-up-1" style={{ fontSize: "clamp(15px, 2vw, 17px)", color: "rgba(247,251,248,0.78)", maxWidth: 560, lineHeight: 1.7, marginBottom: 48 }}>
           Play a quick 9 holes on your lunch break or take the whole family out for a unique indoor golf experience, rain or shine.
         </p>
-        <div className="fade-up-3" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+        <div className="fade-up-2" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           <Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>
           <Btn variant="outline" size="lg" onClick={() => { setPage("memberships"); window.scrollTo(0, 0); }}>Become A Member</Btn>
         </div>
 
         {/* Social proof + credibility row */}
-        <div className="fade-up-4" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px 26px", marginTop: 52 }}>
+        <div className="fade-up-3" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px 26px", marginTop: 52 }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
             <Stars size={17} />
             <span style={{ fontSize: 14, color: C.white, fontWeight: 600 }}>4.9 on Google</span>
@@ -457,6 +493,11 @@ function Hero({ setPage }) {
           ))}
         </div>
       </div>
+
+      <div className="scroll-cue" style={{ position: "absolute", left: "50%", bottom: 36, transform: "translateX(-50%)", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+        <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: 1.5, textTransform: "uppercase", color: "rgba(247,251,248,0.55)" }}>Scroll</span>
+        <Icon name="chevronDown" size={18} stroke={1.8} color="rgba(247,251,248,0.55)" />
+      </div>
     </section>
   );
 }
@@ -464,44 +505,44 @@ function Hero({ setPage }) {
 // ─── ENJOY GOLF SECTION ──────────────────────────────────────
 function EnjoyGolf({ setPage }) {
   return (
-    <section style={{ background: C.surface, padding: "96px 24px" }}>
+    <section style={{ background: C.surface, padding: "128px 24px" }}>
       <div className="responsive-grid responsive-grid-half" style={{ maxWidth: 1280, margin: "0 auto", gap: 64, alignItems: "center" }}>
-        <div className="fade-up">
-          <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 5vw, 54px)", lineHeight: 1.15, marginBottom: 24 }}>
+        <Reveal>
+          <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(34px, 5.5vw, 58px)", lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24 }}>
             Enjoy golf <span style={{ color: C.green }}>on your own schedule.</span>
           </h2>
-          <p style={{ fontSize: 16, color: C.gray, lineHeight: 1.75, marginBottom: 16 }}>
+          <p style={{ fontSize: 16, color: C.gray, lineHeight: 1.75, marginBottom: 16, maxWidth: 480 }}>
             The Jacket pairs Trackman-accurate simulators with a relaxed bar and lounge, so you get serious golf and a great hang in one place.
           </p>
-          <p style={{ fontSize: 16, color: C.gray, lineHeight: 1.75, marginBottom: 36 }}>
+          <p style={{ fontSize: 16, color: C.gray, lineHeight: 1.75, marginBottom: 36, maxWidth: 480 }}>
             Squeeze in 9 holes on your lunch break, gather the crew for a group outing, or bring the whole family in for a weekend hangout. However you want to play, we've got the space and the comfort to match.
           </p>
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>
             <Btn variant="outlineD" size="lg" onClick={() => { setPage("memberships"); window.scrollTo(0, 0); }}>Explore Memberships</Btn>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="fade-up-2" style={{ position: "relative" }}>
+        <Reveal zoom delay={120} style={{ position: "relative" }}>
           <div style={{
-            borderRadius: 28, overflow: "hidden", aspectRatio: "4 / 5", maxHeight: 520,
+            borderRadius: 28, overflow: "hidden", aspectRatio: "4 / 5", maxHeight: 580,
             boxShadow: "0 24px 60px rgba(7,34,18,0.16)"
           }}>
             <img
-              src="https://images.unsplash.com/photo-1762951160993-de1082c7721e?auto=format&fit=crop&w=1200&q=80"
-              alt="A guest practicing chip shots on an indoor putting green at The Jacket"
+              src={simulatorBaySwing}
+              alt="A guest mid-swing on a Trackman iO simulator bay at The Jacket, with shot data and course view on the bay screen"
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />
           </div>
           <div style={{
-            position: "absolute", left: -20, bottom: 32, background: C.cream, borderRadius: 16,
-            padding: "16px 24px", boxShadow: "0 12px 28px rgba(7,34,18,0.18)", border: `1px solid ${C.brass}`,
+            position: "absolute", left: -20, bottom: 32, background: C.green, borderRadius: 16,
+            padding: "16px 24px", boxShadow: "0 16px 32px rgba(7,34,18,0.3)",
             maxWidth: 240
           }}>
-            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 15, color: C.black, marginBottom: 2 }}>Trackman iO Powered</p>
-            <p style={{ fontSize: 13, color: C.gray, lineHeight: 1.5 }}>Tour-grade ball and club data on every shot.</p>
+            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 15, color: C.white, marginBottom: 2 }}>Trackman iO Powered</p>
+            <p style={{ fontSize: 13, color: "rgba(247,251,248,0.85)", lineHeight: 1.5 }}>Tour-grade ball and club data on every shot.</p>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -514,48 +555,48 @@ function ImageCards({ setPage }) {
       title: "Book A Simulator Bay",
       desc: "Step up to a Trackman iO bay and play world-famous courses, dial in your swing, or jump into one of our arcade-style mini games.",
       cta: "Book A Bay", href: LINKS.bookBay,
-      img: "https://images.unsplash.com/photo-1762952078331-a680492cffe3?auto=format&fit=crop&w=1200&q=80",
-      alt: "An indoor golf bay with a wide screen showing a course and a putting mat"
+      img: simulatorBayLounge,
+      alt: "A simulator bay lounge at The Jacket with the Trackman screen, leather seating, and a marble coffee table"
     },
     {
       title: "Join A League",
       desc: "Sharpen your game season after season, climb the leaderboard, and meet other golfers from around the area.",
       cta: "See League Options", page: "leagues",
-      img: "https://plus.unsplash.com/premium_photo-1661353216079-d2d45be6ece4?auto=format&fit=crop&w=1200&q=80",
-      alt: "A group of friends laughing together after a round of golf"
+      img: leagueTeamPhoto,
+      alt: "The Jacket team and league players posing together outside the venue"
     },
     {
       title: "Book Professional Lessons",
       desc: "Work one-on-one with a certified coach using real-time Trackman data to fix what's holding your swing back.",
       cta: "Book A Lesson", href: LINKS.lessons,
-      img: "https://images.unsplash.com/photo-1683418097311-9f0930001470?auto=format&fit=crop&w=1200&q=80",
-      alt: "A golfer mid-swing, working on form"
+      img: lessonClubFitting,
+      alt: "A coach at The Jacket guiding a student's grip and swing position on a Trackman simulator bay"
     },
   ];
 
   return (
-    <section style={{ background: C.cream, padding: "40px 24px 96px" }}>
+    <section style={{ background: C.surface, padding: "48px 24px 128px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }} className="responsive-grid responsive-grid-3">
         {cards.map((c, i) => (
-          <div key={i} style={{
-            position: "relative", borderRadius: 24, overflow: "hidden", minHeight: 380,
+          <Reveal key={i} delay={i * 110} className="hover-lift" style={{
+            position: "relative", borderRadius: 24, overflow: "hidden", minHeight: 440,
             display: "flex", flexDirection: "column", justifyContent: "flex-end",
-            boxShadow: "0 10px 30px rgba(7,34,18,0.12)", transition: "transform 0.3s var(--ease-out-expo)"
+            boxShadow: "0 10px 30px rgba(7,34,18,0.12)"
           }}
             onMouseEnter={e => e.currentTarget.style.transform = "translateY(-6px)"}
             onMouseLeave={e => e.currentTarget.style.transform = "translateY(0)"}
           >
             <img src={c.img} alt={c.alt} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
-            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(7,34,18,0.94) 0%, rgba(7,34,18,0.5) 55%, rgba(7,34,18,0.05) 100%)" }} />
+            <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.5) 55%, rgba(0,0,0,0.05) 100%)" }} />
             <div style={{ position: "relative", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 24, color: C.white, marginBottom: 12, lineHeight: 1.25 }}>{c.title}</h3>
+              <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 26, color: C.white, marginBottom: 12, lineHeight: 1.2, letterSpacing: "-0.01em" }}>{c.title}</h3>
               <p style={{ fontSize: 14, color: "rgba(247,251,248,0.8)", lineHeight: 1.65, marginBottom: 24 }}>{c.desc}</p>
               {c.href
                 ? <Btn href={c.href} size="md" full>{c.cta}</Btn>
                 : <Btn size="md" variant="white" full onClick={() => { setPage(c.page); window.scrollTo(0, 0); }}>{c.cta}</Btn>
               }
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -571,28 +612,42 @@ function MemberSection({ setPage }) {
   ];
 
   return (
-    <section style={{ background: `linear-gradient(145deg, ${C.dark} 0%, ${C.darkMid} 100%)`, padding: "96px 24px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+    <section style={{ position: "relative", overflow: "hidden", padding: "132px 24px" }}>
+      <img
+        src={memberTechBay}
+        alt=""
+        aria-hidden="true"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
+      />
+      <div style={{
+        position: "absolute", inset: 0, zIndex: 0,
+        background: "linear-gradient(110deg, rgba(0,0,0,0.94) 0%, rgba(0,0,0,0.86) 35%, rgba(0,0,0,0.5) 70%, rgba(0,0,0,0.75) 100%)"
+      }} />
+      <div style={{
+        position: "absolute", top: "-10%", right: "-8%", width: 560, height: 560, borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(66,170,96,0.18) 0%, rgba(66,170,96,0) 70%)", filter: "blur(10px)", pointerEvents: "none", zIndex: 0
+      }} />
+      <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
         <div className="responsive-grid responsive-grid-half" style={{ gap: 56, alignItems: "center" }}>
-          <div>
-            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(30px, 4.5vw, 48px)", color: C.white, marginBottom: 20, lineHeight: 1.15 }}>Become A Member</h2>
-            <p style={{ fontSize: 16, color: "rgba(247,251,248,0.75)", lineHeight: 1.75, marginBottom: 36 }}>
+          <Reveal>
+            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 4.8vw, 52px)", color: C.white, marginBottom: 20, lineHeight: 1.1, letterSpacing: "-0.02em" }}>Become A Member</h2>
+            <p style={{ fontSize: 16, color: "rgba(247,251,248,0.75)", lineHeight: 1.75, marginBottom: 36, maxWidth: 460 }}>
               Members get priority booking windows, guest passes for friends and family, and a flat 20% off food and drinks every visit.
             </p>
             <Btn onClick={() => { setPage("memberships"); window.scrollTo(0, 0); }} size="lg">See Membership Plans</Btn>
-          </div>
+          </Reveal>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+          <Reveal delay={120} style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <div style={{
-              display: "flex", alignItems: "flex-start", gap: 18, background: C.cream,
-              borderRadius: 20, padding: "28px", marginBottom: 12
+              display: "flex", alignItems: "flex-start", gap: 18, background: C.dark,
+              borderRadius: 20, padding: "28px", marginBottom: 12, border: "1px solid rgba(255,255,255,0.08)"
             }}>
               <span style={{ flexShrink: 0, width: 48, height: 48, borderRadius: 12, background: C.green, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Icon name="tag" size={26} color={C.white} stroke={1.7} />
               </span>
               <div>
-                <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 19, color: C.black, marginBottom: 6, lineHeight: 1.3 }}>20% off everything, every visit</p>
-                <p style={{ fontSize: 14, color: C.gray, lineHeight: 1.6 }}>Lessons, bay time, private events, and merch. The discount applies automatically, no codes to remember.</p>
+                <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 19, color: C.greenAccent, marginBottom: 6, lineHeight: 1.3 }}>20% off everything, every visit</p>
+                <p style={{ fontSize: 14, color: "rgba(247,251,248,0.72)", lineHeight: 1.6 }}>Lessons, bay time, private events, and merch. The discount applies automatically, no codes to remember.</p>
               </div>
             </div>
 
@@ -611,7 +666,7 @@ function MemberSection({ setPage }) {
                 </div>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -634,9 +689,9 @@ function Reviews() {
   const next = () => setStart(s => Math.min(REVIEWS.length - 1, s + 1));
 
   return (
-    <section style={{ background: C.greenWash, padding: "96px 24px" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(28px, 4vw, 42px)", textAlign: "center", marginBottom: 16 }}>What Guests Are Saying</h2>
+    <section style={{ background: C.surface, padding: "112px 24px" }}>
+      <Reveal as="div" style={{ maxWidth: 1280, margin: "0 auto" }}>
+        <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(30px, 4.2vw, 44px)", letterSpacing: "-0.015em", textAlign: "center", marginBottom: 16 }}>What Guests Are Saying</h2>
 
         <div style={{ display: "inline-flex", alignItems: "center", gap: 12, justifyContent: "center", width: "100%", marginBottom: 44 }}>
           <Stars size={20} />
@@ -686,7 +741,7 @@ function Reviews() {
               opacity: start === REVIEWS.length - 1 ? 0.3 : 1, boxShadow: "0 2px 8px rgba(7,34,18,0.05)", flexShrink: 0
             }}>›</button>
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }
@@ -706,20 +761,20 @@ const FAQS = [
 function FAQBlock({ faqs = FAQS }) {
   const [open, setOpen] = useState(null);
   return (
-    <section style={{ background: C.surface, padding: "80px 24px" }}>
+    <section style={{ background: C.surface, padding: "112px 24px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }} className="responsive-grid responsive-grid-half">
-        <div>
-          <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2 }}>
+        <Reveal>
+          <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(30px, 4vw, 44px)", letterSpacing: "-0.015em", lineHeight: 1.15 }}>
             Frequently Asked Questions
           </h2>
           <p style={{ color: C.gray, marginTop: 12, fontSize: 15, lineHeight: 1.7 }}>
             Can't find what you're looking for? Give us a call at{" "}
             <a href="tel:6824008055" style={{ color: C.green, fontWeight: 700 }}>(682) 400-8055</a> and we'll help out.
           </p>
-        </div>
+        </Reveal>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           {faqs.map((f, i) => (
-            <div key={i} style={{ borderBottom: `1px solid ${C.grayLight}`, paddingBottom: 4 }}>
+            <Reveal key={i} delay={i * 60} style={{ borderBottom: `1px solid ${C.grayLight}`, paddingBottom: 4 }}>
               <div onClick={() => setOpen(open === i ? null : i)}
                 style={{ padding: "20px 0", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" }}>
                 <span style={{ fontFamily: "'Public Sans', sans-serif", fontWeight: 600, fontSize: 15, paddingRight: 16, color: C.black }}>{f.q}</span>
@@ -728,7 +783,7 @@ function FAQBlock({ faqs = FAQS }) {
               <div style={{ maxHeight: open === i ? "300px" : "0px", overflow: "hidden", transition: "max-height 0.3s ease-out" }}>
                 <p style={{ paddingBottom: 20, fontSize: 14, color: C.gray, lineHeight: 1.65 }}>{f.a}</p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

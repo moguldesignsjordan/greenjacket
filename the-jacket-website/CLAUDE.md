@@ -7,3 +7,8 @@ See `PRODUCT.md` for the full strategic brief. Quick reference:
 - **Anti-references:** Topgolf-style big-box chains, generic golf/SaaS jargon, cluttered sports-bar visual noise.
 - **Design principles:** local-first warmth, tech credibility without jargon, one clear CTA per page, show-don't-oversell, readable for everyone (broad/older audience).
 - **Accessibility:** WCAG AA baseline with extra emphasis on contrast/readability.
+
+## Copy rules
+
+- **Never use em-dash ( — ) characters in site copy.** Rewrite with a period, comma, colon, or parentheses instead. This applies to all visible UI/marketing copy.
+- **No emojis in UI or copy.** Use proper SVG/line icons for visual markers, never emoji glyphs.

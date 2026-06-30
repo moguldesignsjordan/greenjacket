@@ -1,23 +1,24 @@
 import { useState, useEffect } from "react";
-import golfVideo from "./assets/videogolf.mp4";
 import logoImg from "./assets/TheJacket.png";
 
 
 // ─── DESIGN TOKENS — "fairway green jacket" ──────────────────
 const C = {
-  green: "#158445",
-  greenHov: "#006B32",
-  greenAccent: "#42AA60",
-  dark: "#072212",
-  darkMid: "#102F1D",
-  black: "#101511",
-  white: "#F7FBF8",
-  greenWash: "#EAF8E9",
-  cream: "#FAECDA",
-  brass: "#D3A35D",
-  brassHov: "#BE8E48",
-  gray: "#525D54",
-  grayLight: "#E4E1D8",
+  green: "var(--green)",
+  greenHov: "var(--green-hover)",
+  greenAccent: "var(--green-accent)",
+  dark: "var(--brand-dark)",
+  darkMid: "var(--brand-dark-mid)",
+  black: "var(--text)",
+  white: "var(--white)",
+  surface: "var(--surface)",
+  greenWash: "var(--surface-green)",
+  cream: "var(--surface-warm)",
+  brass: "var(--brass)",
+  brassHov: "var(--brass-hover)",
+  gray: "var(--text-muted)",
+  grayLight: "var(--border)",
+  ink: "#101511",
 };
 
 // ─── BOOKING LINKS ───────────────────────────────────────────
@@ -61,7 +62,7 @@ function Btn({ children, variant = "green", href, onClick, full = false, size = 
     outline: { background: "transparent", color: C.white, border: "2px solid rgba(255,255,255,0.8)" },
     outlineD: { background: "transparent", color: C.black, border: `2px solid ${C.black}` },
     dark: { background: C.dark, color: C.white, border: `2px solid ${C.dark}` },
-    white: { background: C.white, color: C.black, border: `2px solid ${C.white}` },
+    white: { background: C.white, color: C.ink, border: `2px solid ${C.white}` },
     brass: { background: C.brass, color: C.black, border: `2px solid ${C.brass}` },
   };
   const s = { ...base, ...variants[variant], ...extra };
@@ -72,6 +73,38 @@ function Btn({ children, variant = "green", href, onClick, full = false, size = 
   );
   return (
     <button onClick={onClick} style={s} className={hoverClass}>{children}</button>
+  );
+}
+
+// ─── ICONS ───────────────────────────────────────────────────
+function Icon({ name, size = 24, stroke = 1.75, color = "currentColor", style = {} }) {
+  const p = { fill: "none", stroke: color, strokeWidth: stroke, strokeLinecap: "round", strokeLinejoin: "round" };
+  const paths = {
+    flag:  <><path {...p} d="M5 21V4" /><path {...p} d="M5 4c3-2 6 2 9 0s4-2 4-2v8s-1 2-4 2-6-2-9 0" /></>,
+    clock: <><circle {...p} cx="12" cy="12" r="9" /><path {...p} d="M12 7v5l3.5 2" /></>,
+    glass: <><path {...p} d="M5 4h14l-6 7v7" /><path {...p} d="M9 18h8" /><path {...p} d="M8 8h8" /></>,
+    tag:   <><path {...p} d="M3 12V4h8l9 9-8 8-9-9z" /><circle {...p} cx="7.5" cy="7.5" r="1.4" /></>,
+    users: <><circle {...p} cx="9" cy="8" r="3.2" /><path {...p} d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6" /><path {...p} d="M16 5.4a3.2 3.2 0 0 1 0 5.9" /><path {...p} d="M17.6 14.2c2 .9 3.4 2.9 3.4 5.3" /></>,
+    star:  <path {...p} d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" />,
+    spark: <><path {...p} d="M12 3v3.5M12 17.5V21M3 12h3.5M17.5 12H21" /><path {...p} d="M12 7l1.7 3.3L17 12l-3.3 1.7L12 17l-1.7-3.3L7 12l3.3-1.7z" /></>,
+    pin:   <><path {...p} d="M12 21s7-5.3 7-11a7 7 0 1 0-14 0c0 5.7 7 11 7 11z" /><circle {...p} cx="12" cy="10" r="2.5" /></>,
+    check: <path {...p} d="M5 12.5l4.5 4.5L19 7" />,
+    sun:   <><circle {...p} cx="12" cy="12" r="4" /><path {...p} d="M12 2.5V5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8" /></>,
+    moon:  <path {...p} d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" />,
+  };
+  return <svg width={size} height={size} viewBox="0 0 24 24" style={style} aria-hidden="true">{paths[name]}</svg>;
+}
+
+// ─── STAR RATING ─────────────────────────────────────────────
+function Stars({ size = 16, color = C.brass }) {
+  return (
+    <span style={{ display: "inline-flex", gap: 2 }} aria-label="5 out of 5 stars">
+      {[0, 1, 2, 3, 4].map(i => (
+        <svg key={i} width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z" fill={color} />
+        </svg>
+      ))}
+    </span>
   );
 }
 
@@ -98,7 +131,28 @@ const MENU_GROUPS = [
   ]},
 ];
 
-function Navbar({ page, setPage }) {
+function ThemeToggle({ theme, toggleTheme, style = {} }) {
+  const dark = theme === "dark";
+  return (
+    <button
+      onClick={toggleTheme}
+      aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+      title={dark ? "Switch to light mode" : "Switch to dark mode"}
+      style={{
+        width: 44, height: 44, borderRadius: "50%", flexShrink: 0,
+        background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+        display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
+        color: C.brass, transition: "background 0.2s, transform 0.2s", ...style
+      }}
+      onMouseEnter={e => { e.currentTarget.style.background = "rgba(211,163,93,0.18)"; }}
+      onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }}
+    >
+      <Icon name={dark ? "sun" : "moon"} size={20} stroke={1.7} />
+    </button>
+  );
+}
+
+function Navbar({ page, setPage, theme, toggleTheme }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -142,22 +196,22 @@ function Navbar({ page, setPage }) {
         borderBottom: scrolled ? "1px solid rgba(255,255,255,0.08)" : "1px solid rgba(255,255,255,0.04)",
       }}>
         <div style={{
-          maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 76,
+          maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 96,
           display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16
         }}>
 
           {/* Brand Identity Branding Frame */}
           <div onClick={() => { setPage("home"); setMenuOpen(false); window.scrollTo(0, 0); }}
             style={{ display: "flex", alignItems: "center", cursor: "pointer", flexShrink: 0 }}>
-            <Logo size={64} />
+            <Logo size={88} />
           </div>
 
           {/* Inline Navigation Menu (Desktop Mode) */}
-          <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="tj-desk-nav">
+          <div style={{ display: "flex", alignItems: "center", gap: 28, flexShrink: 0 }} className="tj-desk-nav">
             {navItems.map(item => (
               <span key={item.id} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }}
                 className="nav-link"
-                style={{ fontSize: 14, fontFamily: "'Public Sans', sans-serif", fontWeight: 500, letterSpacing: 0.3, color: page === item.id ? C.brass : "rgba(247,251,248,0.85)", cursor: "pointer", transition: "color 0.2s" }}
+                style={{ fontSize: 14, fontFamily: "'Public Sans', sans-serif", fontWeight: 500, letterSpacing: 0.3, whiteSpace: "nowrap", color: page === item.id ? C.brass : "rgba(247,251,248,0.85)", cursor: "pointer", transition: "color 0.2s" }}
               >
                 {item.label}
               </span>
@@ -165,23 +219,27 @@ function Navbar({ page, setPage }) {
           </div>
 
           {/* Contextual Layout Actions */}
-          <div className="tj-desk-nav" style={{ flexShrink: 0 }}>
+          <div className="tj-desk-nav" style={{ flexShrink: 0, display: "flex", alignItems: "center", gap: 12 }}>
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             <Btn href={LINKS.bookBay} size="sm">Book A Bay</Btn>
           </div>
 
-          {/* Action Trigger Node (Mobile Toggle Mode) */}
-          <div className="tj-mob-btn" onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.06)",
-              display: "none", flexDirection: "column", alignItems: "center", center: "center", gap: 5, cursor: "pointer"
-            }}>
-            {[0, 1, 2].map(i => (
-              <div key={i} style={{
-                width: 20, height: 2, background: C.white, borderRadius: 1, transition: "transform 0.3s, opacity 0.3s",
-                transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" : menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none",
-                opacity: menuOpen && i === 1 ? 0 : 1
-              }} />
-            ))}
+          {/* Mobile actions: theme toggle + menu trigger */}
+          <div className="tj-mob-btn" style={{ display: "none", alignItems: "center", gap: 10 }}>
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+            <div onClick={() => setMenuOpen(!menuOpen)}
+              style={{
+                width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.06)",
+                display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 5, cursor: "pointer"
+              }}>
+              {[0, 1, 2].map(i => (
+                <div key={i} style={{
+                  width: 20, height: 2, background: C.white, borderRadius: 1, transition: "transform 0.3s, opacity 0.3s",
+                  transform: menuOpen && i === 0 ? "rotate(45deg) translate(5px, 5px)" : menuOpen && i === 2 ? "rotate(-45deg) translate(5px, -5px)" : "none",
+                  opacity: menuOpen && i === 1 ? 0 : 1
+                }} />
+              ))}
+            </div>
           </div>
         </div>
 
@@ -198,7 +256,7 @@ function Navbar({ page, setPage }) {
                 {group.items.map(item => (
                   <div key={item.id} onClick={() => { setPage(item.id); setMenuOpen(false); window.scrollTo(0, 0); }}
                     style={{
-                      padding: "12px", fontSize: 17, fontFamily: "'Bitter', serif", fontWeight: 700, borderRadius: 12,
+                      padding: "12px", fontSize: 17, fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, borderRadius: 12,
                       background: page === item.id ? "rgba(211,163,93,0.14)" : "transparent",
                       color: page === item.id ? C.brass : "rgba(247,251,248,0.92)", cursor: "pointer"
                     }}
@@ -230,7 +288,7 @@ function Footer({ setPage }) {
       <div style={{ background: C.cream, padding: "64px 24px", textAlign: "center" }}>
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
           <div style={{
-            display: "flex", gap: 12, background: C.white, padding: "16px", borderRadius: 16,
+            display: "flex", gap: 12, background: C.surface, padding: "16px", borderRadius: 16,
             boxShadow: "0 4px 20px rgba(0,0,0,0.03)", alignItems: "flex-start", textAlign: "left", marginBottom: 40
           }}>
             <input type="checkbox" id="sms" style={{ accentColor: C.green, width: 18, height: 18, marginTop: 2, flexShrink: 0 }} />
@@ -240,7 +298,7 @@ function Footer({ setPage }) {
           </div>
 
           <div>
-            <p style={{ fontFamily: "'Bitter', serif", fontSize: 18, fontWeight: 700, marginBottom: 20, letterSpacing: 0.3 }}>Follow Us</p>
+            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 18, fontWeight: 700, marginBottom: 20, letterSpacing: 0.3 }}>Follow Us</p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center" }}>
               {[
                 { href: LINKS.facebook, icon: <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
@@ -264,14 +322,14 @@ function Footer({ setPage }) {
       </div>
 
       {/* Main Structural Nav Floor */}
-      <footer style={{ background: C.white, borderTop: `1px solid ${C.grayLight}`, padding: "64px 24px 32px" }}>
+      <footer style={{ background: C.surface, borderTop: `1px solid ${C.grayLight}`, padding: "64px 24px 32px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
 
           <div className="responsive-grid responsive-grid-3" style={{ gap: 40, marginBottom: 64 }}>
             {/* Primary Global Navigation Map */}
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               {large.map(item => (
-                <div key={item.label} style={{ fontFamily: "'Bitter', serif", fontSize: 20, fontWeight: 800 }}>
+                <div key={item.label} style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 20, fontWeight: 700 }}>
                   {item.href ? (
                     <a href={item.href} target="_blank" rel="noopener noreferrer" style={{ color: C.black }} onMouseEnter={e => e.currentTarget.style.color = C.green} onMouseLeave={e => e.currentTarget.style.color = C.black}>{item.label}</a>
                   ) : (
@@ -337,7 +395,8 @@ function Hero({ setPage }) {
     <section style={{
       minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center",
       position: "relative", overflow: "hidden",
-      padding: "120px 24px 80px",
+      padding: "172px 24px 96px",
+      background: "linear-gradient(160deg, #0A0B0A 0%, #141614 55%, #1B1D1B 100%)",
     }}>
       {/* Background Video */}
       <video
@@ -355,29 +414,47 @@ function Hero({ setPage }) {
           zIndex: 0
         }}
       >
-        <source src={golfVideo} type="video/mp4" />
+        <source src="/video.mp4" type="video/mp4" />
       </video>
 
       {/* Dark overlay to ensure text legibility */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0, background: "linear-gradient(to bottom, rgba(7,34,18,0.55) 0%, rgba(7,34,18,0.8) 100%)" }} />
+      <div style={{ position: "absolute", inset: 0, zIndex: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.75) 100%)" }} />
 
       <div style={{ position: "relative", zIndex: 1, maxWidth: 1280, margin: "0 auto", width: "100%" }}>
-        <p className="fade-up" style={{ fontSize: 13, color: C.brass, marginBottom: 16, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase" }}>
+        <p className="fade-up" style={{ fontSize: 13, color: C.brass, marginBottom: 22, fontWeight: 700, letterSpacing: 2.5, textTransform: "uppercase" }}>
           Premium Indoor Simulation Lounge
         </p>
         <h1 className="fade-up-1" style={{
-          fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: "clamp(38px, 6.5vw, 76px)",
-          color: C.white, lineHeight: 1.1, maxWidth: 850, marginBottom: 24,
+          fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 600, fontSize: "clamp(34px, 5.5vw, 64px)",
+          color: C.white, lineHeight: 1.18, letterSpacing: "-0.02em", maxWidth: 850, marginBottom: 32,
         }}>
           Indoor golf<br />reimagined for<br />
-          <span className={cls} style={{ color: C.greenAccent, display: "inline-block", position: "relative" }}>{ROTATING_WORDS[idx]}</span>
+          <span className={cls} style={{ color: C.greenAccent, fontWeight: 700, display: "inline-block", position: "relative", lineHeight: 1.3, paddingBottom: "0.12em" }}>{ROTATING_WORDS[idx]}</span>
         </h1>
-        <p className="fade-up-2" style={{ fontSize: "clamp(15px, 2vw, 17px)", color: "rgba(247,251,248,0.78)", maxWidth: 560, lineHeight: 1.7, marginBottom: 40 }}>
-          Step up to a Trackman iO bay and play world-famous courses with pinpoint accuracy, then settle in for great food, drinks, and good company.
+        <p className="fade-up-2" style={{ fontSize: "clamp(15px, 2vw, 17px)", color: "rgba(247,251,248,0.78)", maxWidth: 560, lineHeight: 1.7, marginBottom: 48 }}>
+          Play a quick 9 holes on your lunch break or take the whole family out for a unique indoor golf experience, rain or shine.
         </p>
         <div className="fade-up-3" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
           <Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>
           <Btn variant="outline" size="lg" onClick={() => { setPage("memberships"); window.scrollTo(0, 0); }}>Become A Member</Btn>
+        </div>
+
+        {/* Social proof + credibility row */}
+        <div className="fade-up-4" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px 26px", marginTop: 52 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 9 }}>
+            <Stars size={17} />
+            <span style={{ fontSize: 14, color: C.white, fontWeight: 600 }}>4.9 on Google</span>
+          </span>
+          {[
+            { icon: "spark", label: "Trackman iO bays" },
+            { icon: "glass", label: "Back 9 Bar & Grill" },
+            { icon: "clock", label: "Open late, 7 days" },
+          ].map(item => (
+            <span key={item.label} style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+              <Icon name={item.icon} size={18} color={C.brass} stroke={1.6} />
+              <span style={{ fontSize: 14, color: "rgba(247,251,248,0.82)", fontWeight: 500 }}>{item.label}</span>
+            </span>
+          ))}
         </div>
       </div>
     </section>
@@ -387,10 +464,10 @@ function Hero({ setPage }) {
 // ─── ENJOY GOLF SECTION ──────────────────────────────────────
 function EnjoyGolf({ setPage }) {
   return (
-    <section style={{ background: C.white, padding: "96px 24px" }}>
+    <section style={{ background: C.surface, padding: "96px 24px" }}>
       <div className="responsive-grid responsive-grid-half" style={{ maxWidth: 1280, margin: "0 auto", gap: 64, alignItems: "center" }}>
         <div className="fade-up">
-          <h2 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: "clamp(32px, 5vw, 54px)", lineHeight: 1.15, marginBottom: 24 }}>
+          <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 5vw, 54px)", lineHeight: 1.15, marginBottom: 24 }}>
             Enjoy golf <span style={{ color: C.green }}>on your own schedule.</span>
           </h2>
           <p style={{ fontSize: 16, color: C.gray, lineHeight: 1.75, marginBottom: 16 }}>
@@ -421,7 +498,7 @@ function EnjoyGolf({ setPage }) {
             padding: "16px 24px", boxShadow: "0 12px 28px rgba(7,34,18,0.18)", border: `1px solid ${C.brass}`,
             maxWidth: 240
           }}>
-            <p style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 15, color: C.black, marginBottom: 2 }}>Trackman iO Powered</p>
+            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 15, color: C.black, marginBottom: 2 }}>Trackman iO Powered</p>
             <p style={{ fontSize: 13, color: C.gray, lineHeight: 1.5 }}>Tour-grade ball and club data on every shot.</p>
           </div>
         </div>
@@ -471,7 +548,7 @@ function ImageCards({ setPage }) {
             <img src={c.img} alt={c.alt} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }} />
             <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(7,34,18,0.94) 0%, rgba(7,34,18,0.5) 55%, rgba(7,34,18,0.05) 100%)" }} />
             <div style={{ position: "relative", padding: "32px" }}>
-              <h3 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 24, color: C.white, marginBottom: 12, lineHeight: 1.25 }}>{c.title}</h3>
+              <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 24, color: C.white, marginBottom: 12, lineHeight: 1.25 }}>{c.title}</h3>
               <p style={{ fontSize: 14, color: "rgba(247,251,248,0.8)", lineHeight: 1.65, marginBottom: 24 }}>{c.desc}</p>
               {c.href
                 ? <Btn href={c.href} size="md" full>{c.cta}</Btn>
@@ -488,9 +565,9 @@ function ImageCards({ setPage }) {
 // ─── MEMBER SECTION ──────────────────────────────────────────
 function MemberSection({ setPage }) {
   const perks = [
-    { icon: "👨‍👩‍👧", title: "Family Memberships", desc: "Add your whole household to one membership and everyone gets the perks." },
-    { icon: "⛳", title: "Daily Simulator Time", desc: "A set amount of bay time included every day, no extra fees." },
-    { icon: "🍺", title: "Always-On Happy Hour", desc: "Members get happy hour drink prices any day we're open." },
+    { icon: "users", title: "Family Memberships", desc: "Add your whole household to one membership and everyone gets the perks." },
+    { icon: "flag", title: "Daily Simulator Time", desc: "A set amount of bay time included every day, no extra fees." },
+    { icon: "glass", title: "Always-On Happy Hour", desc: "Members get happy hour drink prices any day we're open." },
   ];
 
   return (
@@ -498,7 +575,7 @@ function MemberSection({ setPage }) {
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
         <div className="responsive-grid responsive-grid-half" style={{ gap: 56, alignItems: "center" }}>
           <div>
-            <h2 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: "clamp(30px, 4.5vw, 48px)", color: C.white, marginBottom: 20, lineHeight: 1.15 }}>Become A Member</h2>
+            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(30px, 4.5vw, 48px)", color: C.white, marginBottom: 20, lineHeight: 1.15 }}>Become A Member</h2>
             <p style={{ fontSize: 16, color: "rgba(247,251,248,0.75)", lineHeight: 1.75, marginBottom: 36 }}>
               Members get priority booking windows, guest passes for friends and family, and a flat 20% off food and drinks every visit.
             </p>
@@ -510,10 +587,12 @@ function MemberSection({ setPage }) {
               display: "flex", alignItems: "flex-start", gap: 18, background: C.cream,
               borderRadius: 20, padding: "28px", marginBottom: 12
             }}>
-              <span style={{ fontSize: 32, lineHeight: 1 }}>🏷️</span>
+              <span style={{ flexShrink: 0, width: 48, height: 48, borderRadius: 12, background: C.green, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Icon name="tag" size={26} color={C.white} stroke={1.7} />
+              </span>
               <div>
-                <p style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 19, color: C.black, marginBottom: 6, lineHeight: 1.3 }}>20% off everything, every visit</p>
-                <p style={{ fontSize: 14, color: C.gray, lineHeight: 1.6 }}>Lessons, bay time, private events, and merch — the discount applies automatically, no codes to remember.</p>
+                <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 19, color: C.black, marginBottom: 6, lineHeight: 1.3 }}>20% off everything, every visit</p>
+                <p style={{ fontSize: 14, color: C.gray, lineHeight: 1.6 }}>Lessons, bay time, private events, and merch. The discount applies automatically, no codes to remember.</p>
               </div>
             </div>
 
@@ -523,9 +602,11 @@ function MemberSection({ setPage }) {
                 borderTop: i === 0 ? "1px solid rgba(255,255,255,0.08)" : "none",
                 borderBottom: i < perks.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none"
               }}>
-                <span style={{ fontSize: 22, lineHeight: 1, flexShrink: 0 }}>{f.icon}</span>
+                <span style={{ flexShrink: 0, width: 40, height: 40, borderRadius: 10, background: "rgba(211,163,93,0.14)", border: "1px solid rgba(211,163,93,0.3)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Icon name={f.icon} size={20} color={C.brass} stroke={1.7} />
+                </span>
                 <div>
-                  <p style={{ fontSize: 15, fontWeight: 700, color: C.white, fontFamily: "'Bitter', serif" }}>{f.title}</p>
+                  <p style={{ fontSize: 15, fontWeight: 700, color: C.white, fontFamily: "'Familjen Grotesk', sans-serif" }}>{f.title}</p>
                   <p style={{ fontSize: 13, color: "rgba(247,251,248,0.6)", lineHeight: 1.6 }}>{f.desc}</p>
                 </div>
               </div>
@@ -540,7 +621,7 @@ function MemberSection({ setPage }) {
 // ─── REVIEWS CAROUSEL ────────────────────────────────────────
 const REVIEWS = [
   { name: "Robin Moore", ago: "1 year ago", text: "Service and food were excellent!! 20 of us coming back in 2 weeks! Let go!! Thanks so much Germany, Ashton (server/hostess) and Tanner! Oh let's not forget the food and drinks, they were outstanding!!" },
-  { name: "Deidre Gwin", ago: "1 year ago", text: "Excellent service, great food, we will be back! Thank you! 🎉🎉🎉🎉🎉 Shout out to Tanner, Ashton our amazing hostess and server, Germany, Anthony and the whole staff." },
+  { name: "Deidre Gwin", ago: "1 year ago", text: "Excellent service, great food, we will be back! Thank you! Shout out to Tanner, Ashton our amazing hostess and server, Germany, Anthony and the whole staff." },
   { name: "DeAndrea Adanandus", ago: "1 year ago", text: "I recently hosted a surprise birthday party for my Husband at The Green Jacket, and it was nothing short of phenomenal! From start to finish, the experience was incredible." },
   { name: "Marcus Thompson", ago: "8 months ago", text: "Best indoor golf experience in the DFW area. The Trackman simulators are incredibly accurate and the staff is super friendly. Will definitely be back!" },
   { name: "Sarah Williams", ago: "6 months ago", text: "We came for a corporate event and everyone had a blast. The food was great, the bays are spacious, and the technology is top notch. Highly recommend!" },
@@ -555,12 +636,19 @@ function Reviews() {
   return (
     <section style={{ background: C.greenWash, padding: "96px 24px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-        <h2 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: "clamp(28px, 4vw, 42px)", textAlign: "center", marginBottom: 48 }}>What Guests Are Saying</h2>
+        <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(28px, 4vw, 42px)", textAlign: "center", marginBottom: 16 }}>What Guests Are Saying</h2>
+
+        <div style={{ display: "inline-flex", alignItems: "center", gap: 12, justifyContent: "center", width: "100%", marginBottom: 44 }}>
+          <Stars size={20} />
+          <span style={{ fontSize: 15, color: C.black, fontWeight: 600 }}>4.9 out of 5</span>
+          <span style={{ width: 4, height: 4, borderRadius: "50%", background: C.gray, opacity: 0.5 }} />
+          <span style={{ fontSize: 15, color: C.gray }}>Rated by guests on Google</span>
+        </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: 16, justifyContent: "center" }}>
           <button onClick={prev} disabled={start === 0}
             style={{
-              width: 44, height: 44, borderRadius: "50%", border: `1px solid ${C.grayLight}`, background: C.white,
+              width: 44, height: 44, borderRadius: "50%", border: `1px solid ${C.grayLight}`, background: C.surface,
               display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 20,
               opacity: start === 0 ? 0.3 : 1, boxShadow: "0 2px 8px rgba(7,34,18,0.05)", flexShrink: 0
             }}>‹</button>
@@ -570,19 +658,19 @@ function Reviews() {
               {REVIEWS.map((r, i) => (
                 <div key={i} style={{ width: "100%", flexShrink: 0, padding: "8px" }}>
                   <div style={{
-                    background: C.white, borderRadius: 24, padding: "36px 24px",
+                    background: C.surface, borderRadius: 24, padding: "36px 24px",
                     boxShadow: "0 10px 30px rgba(7,34,18,0.06)", border: `1px solid ${C.grayLight}`, textAlign: "center"
                   }}>
                     <div style={{
                       width: 56, height: 56, borderRadius: "50%", background: C.dark, margin: "0 auto 16px",
-                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, fontWeight: 700, color: C.white, fontFamily: "'Bitter', serif"
+                      display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20, fontWeight: 700, color: C.white, fontFamily: "'Familjen Grotesk', sans-serif"
                     }}>
                       {r.name.charAt(0)}
                     </div>
                     <p style={{ fontWeight: 700, fontSize: 16 }}>{r.name}</p>
                     <p style={{ fontSize: 12, color: C.gray, marginBottom: 12 }}>{r.ago}</p>
-                    <div style={{ display: "flex", gap: 2, justifyContent: "center", marginBottom: 16 }}>
-                      {"★★★★★".split("").map((s, j) => <span key={j} style={{ color: "#FBBC04", fontSize: 16 }}>{s}</span>)}
+                    <div style={{ display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                      <Stars size={17} color="#FBBC04" />
                     </div>
                     <p style={{ fontSize: 14, color: C.black, lineHeight: 1.6, fontStyle: "italic" }}>"{r.text}"</p>
                   </div>
@@ -593,7 +681,7 @@ function Reviews() {
 
           <button onClick={next} disabled={start === REVIEWS.length - 1}
             style={{
-              width: 44, height: 44, borderRadius: "50%", border: `1px solid ${C.grayLight}`, background: C.white,
+              width: 44, height: 44, borderRadius: "50%", border: `1px solid ${C.grayLight}`, background: C.surface,
               display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: 20,
               opacity: start === REVIEWS.length - 1 ? 0.3 : 1, boxShadow: "0 2px 8px rgba(7,34,18,0.05)", flexShrink: 0
             }}>›</button>
@@ -609,7 +697,7 @@ const FAQS = [
   { q: "Do I need to bring my own clubs?", a: "Most customers bring their own clubs. But if you don't have any or forget yours, rental sets are available for $10. Free club rentals for Players Club and Corporate members." },
   { q: "What kind of clubs are the rental sets?", a: "Rental sets include the latest Srixon Irons, fairway woods, and driver, as well as Cleveland wedges and putter." },
   { q: "Is there a dress code?", a: "Feel relaxed and comfortable. Dress however you'd like and enjoy the laid-back atmosphere. No golf shoes required; spikeless or rubber spikes only if you do wear them." },
-  { q: "How accurate is Trackman?", a: "Trackman iO combines radar, infrared and high-speed imaging to deliver real data — including measured 3D spin and spin axis — in real time, accurate within 1½ feet up to 300 yards." },
+  { q: "How accurate is Trackman?", a: "Trackman iO combines radar, infrared and high-speed imaging to deliver real data, including measured 3D spin and spin axis, in real time, accurate within 1.5 feet up to 300 yards." },
   { q: "How many players can play per bay?", a: "Groups should limit themselves to four players per bay for the best experience." },
   { q: "Do I need to have a membership?", a: "No membership is needed to rent bays! Rental rates start at $70 per hour and can be split with friends." },
   { q: "Will you offer food & drinks?", a: "Enjoy a diverse dining experience at The Back 9 Bar and Grill with both classic bar food and a full restaurant menu. The bar offers local craft beers, wine and craft cocktails." },
@@ -618,10 +706,10 @@ const FAQS = [
 function FAQBlock({ faqs = FAQS }) {
   const [open, setOpen] = useState(null);
   return (
-    <section style={{ background: C.white, padding: "80px 24px" }}>
+    <section style={{ background: C.surface, padding: "80px 24px" }}>
       <div style={{ maxWidth: 1100, margin: "0 auto" }} className="responsive-grid responsive-grid-half">
         <div>
-          <h2 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2 }}>
+          <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(28px, 4vw, 42px)", lineHeight: 1.2 }}>
             Frequently Asked Questions
           </h2>
           <p style={{ color: C.gray, marginTop: 12, fontSize: 15, lineHeight: 1.7 }}>
@@ -660,7 +748,7 @@ function PageHero({ title, titleGreen, subtitle, cta1, cta2 }) {
         backgroundImage: "radial-gradient(rgba(211,163,93,0.6) 1px, transparent 1px)", backgroundSize: "24px 24px"
       }} />
       <div style={{ maxWidth: 840, margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
-        <h1 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: "clamp(32px, 5.5vw, 60px)", color: C.white, lineHeight: 1.15, marginBottom: 20 }}>
+        <h1 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 5.5vw, 60px)", color: C.white, lineHeight: 1.15, marginBottom: 20 }}>
           {title}{titleGreen && <> <span style={{ color: C.greenAccent }}>{titleGreen}</span></>}
         </h1>
         {subtitle && <p style={{ fontSize: 16, color: "rgba(247,251,248,0.75)", maxWidth: 600, margin: "0 auto 36px", lineHeight: 1.7 }}>{subtitle}</p>}
@@ -673,14 +761,14 @@ function PageHero({ title, titleGreen, subtitle, cta1, cta2 }) {
 }
 
 // ─── REUSABLE SECTION ────────────────────────────────────────
-function Sec({ children, bg = C.white, pad = "80px 24px" }) {
+function Sec({ children, bg = C.surface, pad = "80px 24px" }) {
   return <section style={{ background: bg, padding: pad }}><div style={{ maxWidth: 1280, margin: "0 auto" }}>{children}</div></section>;
 }
 
 function SecTitle({ title, green, sub, center = true }) {
   return (
     <div style={{ textAlign: center ? "center" : "left", marginBottom: 48, padding: "0 8px" }}>
-      <h2 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: "clamp(26px, 3.5vw, 42px)", lineHeight: 1.2 }}>
+      <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(26px, 3.5vw, 42px)", lineHeight: 1.2 }}>
         {title}{green && <> <span style={{ color: C.green }}>{green}</span></>}
       </h2>
       {sub && <p style={{ fontSize: 15, color: C.gray, maxWidth: 600, margin: center ? "16px auto 0" : "12px 0 0", lineHeight: 1.65 }}>{sub}</p>}
@@ -691,13 +779,13 @@ function SecTitle({ title, green, sub, center = true }) {
 function Card({ title, desc }) {
   return (
     <div style={{
-      background: C.white, borderRadius: 20, padding: "32px 24px", border: `1px solid ${C.grayLight}`,
+      background: C.surface, borderRadius: 20, padding: "32px 24px", border: `1px solid ${C.grayLight}`,
       boxShadow: "0 4px 20px rgba(0,0,0,0.02)", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
     }}
       onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.borderColor = C.green; e.currentTarget.style.boxShadow = "0 12px 30px rgba(21,132,69,0.1)"; }}
       onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.borderColor = C.grayLight; e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.02)"; }}
     >
-      <h4 style={{ fontFamily: "'Bitter', serif", fontWeight: 700, fontSize: 18, marginBottom: 10, color: C.black }}>{title}</h4>
+      <h4 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 18, marginBottom: 10, color: C.black }}>{title}</h4>
       <p style={{ fontSize: 14, color: C.gray, lineHeight: 1.6 }}>{desc}</p>
     </div>
   );
@@ -743,7 +831,7 @@ function MembershipsPage() {
       <Sec>
         <SecTitle label="Member Perks" title="Why Members Love" green="The Jacket" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-3" style={{ marginBottom: 80 }}>
-          {[{ icon: "⛳", t: "90 Minutes Daily", d: "Use your included simulator time any weekday between 10 AM and 6 PM." }, { icon: "🎟️", t: "Bring A Guest", d: "Invite friends, family, or coworkers to play alongside you." }, { icon: "🍸", t: "Happy Hour, Always", d: "Happy hour food and drink prices apply every time you visit." }, { icon: "🏷️", t: "20% Off Across The Board", d: "Save on lessons, private events, club fittings, and more." }, { icon: "🏌️", t: "Free Club Rentals", d: "Play with our latest Srixon and Cleveland rental sets at no extra cost." }, { icon: "📊", t: "Free Swing Evaluation", d: "Get a Trackman swing analysis from one of our coaches." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "90 Minutes Daily", d: "Use your included simulator time any weekday between 10 AM and 6 PM." }, { t: "Bring A Guest", d: "Invite friends, family, or coworkers to play alongside you." }, { t: "Happy Hour, Always", d: "Happy hour food and drink prices apply every time you visit." }, { t: "20% Off Across The Board", d: "Save on lessons, private events, club fittings, and more." }, { t: "Free Club Rentals", d: "Play with our latest Srixon and Cleveland rental sets at no extra cost." }, { t: "Free Swing Evaluation", d: "Get a Trackman swing analysis from one of our coaches." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
 
         <SecTitle label="Pricing" title="Find Your Plan" />
@@ -759,12 +847,12 @@ function MembershipsPage() {
                 position: "absolute", top: -14, left: "50%", transform: "translateX(-50%)",
                 background: C.green, color: C.white, padding: "6px 20px", borderRadius: 999, fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase"
               }}>Most Popular</div>}
-              <h3 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 24, color: t.highlight ? C.white : C.black, marginBottom: 8 }}>{t.name}</h3>
-              <p style={{ fontSize: 36, fontFamily: "'Bitter', serif", fontWeight: 800, color: C.green, marginBottom: 28 }}>{t.price}</p>
+              <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 24, color: t.highlight ? C.white : C.black, marginBottom: 8 }}>{t.name}</h3>
+              <p style={{ fontSize: 36, fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, color: C.green, marginBottom: 28 }}>{t.price}</p>
               <div style={{ marginBottom: 40, display: "flex", flexDirection: "column", gap: 14 }}>
                 {t.perks.map((p, pi) => (
                   <div key={pi} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
-                    <span style={{ color: C.green, fontSize: 15, fontWeight: "bold" }}>✓</span>
+                    <Icon name="check" size={18} stroke={2.4} color={t.highlight ? C.greenAccent : C.green} style={{ flexShrink: 0, marginTop: 1 }} />
                     <span style={{ fontSize: 14, color: t.highlight ? "rgba(255,255,255,0.75)" : C.gray, lineHeight: 1.5 }}>{p}</span>
                   </div>
                 ))}
@@ -796,20 +884,20 @@ function LessonsPage() {
             { name: "Junior Lessons", price: "$119.99", note: "Ages 6–17", desc: "Build solid fundamentals early with coaching designed for young golfers." },
           ].map((l, i) => (
             <div key={i} style={{
-              background: C.white, borderRadius: 24, padding: "44px 32px", textAlign: "center",
+              background: C.surface, borderRadius: 24, padding: "44px 32px", textAlign: "center",
               border: `1px solid ${C.grayLight}`, boxShadow: "0 4px 20px rgba(0,0,0,0.02)"
             }}
             >
               <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: C.green, marginBottom: 12 }}>{l.note}</p>
-              <h3 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 22, marginBottom: 8 }}>{l.name}</h3>
-              <p style={{ fontSize: 34, fontFamily: "'Bitter', serif", fontWeight: 800, color: C.green, marginBottom: 20 }}>{l.price}</p>
+              <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 22, marginBottom: 8 }}>{l.name}</h3>
+              <p style={{ fontSize: 34, fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, color: C.green, marginBottom: 20 }}>{l.price}</p>
               <p style={{ fontSize: 14, color: C.gray, lineHeight: 1.6, marginBottom: 32 }}>{l.desc}</p>
               <Btn href={LINKS.lessons} variant="dark" full>Book This Lesson</Btn>
             </div>
           ))}
         </div>
         <div className="responsive-grid responsive-grid-3">
-          {[{ icon: "🎯", t: "Fix Your Downswing", d: "Spot and correct the small flaws in your downswing using slow-motion video and Trackman data." }, { icon: "🗺️", t: "Smarter Course Management", d: "Learn to read a course, manage risk, and make better decisions on every shot." }, { icon: "🧘", t: "Mental Game Coaching", d: "Build pre-shot routines and focus habits that hold up under pressure." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Fix Your Downswing", d: "Spot and correct the small flaws in your downswing using slow-motion video and Trackman data." }, { t: "Smarter Course Management", d: "Learn to read a course, manage risk, and make better decisions on every shot." }, { t: "Mental Game Coaching", d: "Build pre-shot routines and focus habits that hold up under pressure." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
       </Sec>
     </>
@@ -828,12 +916,12 @@ function WaysToPlayPage() {
         <SecTitle label="Game Modes" title="Mix Up Your Round" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-3" style={{ marginBottom: 64 }}>
           {[
-            { icon: "🎯", t: "Target Tracker", d: "Test your accuracy by landing shots as close as possible to the target." },
-            { icon: "🌃", t: "Neon Mini Golf", d: "Putt your way through glow-in-the-dark mini golf courses." },
-            { icon: "💥", t: "Long Drive Challenge", d: "See how far you can really hit it, tracked down to the yard." },
-            { icon: "📍", t: "Closest To The Pin", d: "Take on par-3 challenges with changing wind and weather conditions." },
-            { icon: "🚩", t: "Flag Hunt", d: "A short-game challenge that mixes accuracy with friendly competition." },
-            { icon: "🐉", t: "Magic Pond", d: "A playful target game that's perfect for kids and first-timers." },
+            { t: "Target Tracker", d: "Test your accuracy by landing shots as close as possible to the target." },
+            { t: "Neon Mini Golf", d: "Putt your way through glow-in-the-dark mini golf courses." },
+            { t: "Long Drive Challenge", d: "See how far you can really hit it, tracked down to the yard." },
+            { t: "Closest To The Pin", d: "Take on par-3 challenges with changing wind and weather conditions." },
+            { t: "Flag Hunt", d: "A short-game challenge that mixes accuracy with friendly competition." },
+            { t: "Magic Pond", d: "A playful target game that's perfect for kids and first-timers." },
           ].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
 
@@ -842,7 +930,7 @@ function WaysToPlayPage() {
 
         <SecTitle label="Tournament Formats" title="Classic Ways To Compete" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-4">
-          {[{ icon: "🏌️", t: "Stroke Play", d: "Every shot counts. Lowest total score wins." }, { icon: "🤝", t: "Alternate Shot", d: "Partners take turns hitting the same ball. Teamwork is everything." }, { icon: "👥", t: "Scramble", d: "Everyone tees off, the team picks the best shot, and plays from there." }, { icon: "⛳", t: "Pitch & Putt", d: "Focus on your short game with formats built around wedges and putters." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Stroke Play", d: "Every shot counts. Lowest total score wins." }, { t: "Alternate Shot", d: "Partners take turns hitting the same ball. Teamwork is everything." }, { t: "Scramble", d: "Everyone tees off, the team picks the best shot, and plays from there." }, { t: "Pitch & Putt", d: "Focus on your short game with formats built around wedges and putters." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
       </Sec>
     </>
@@ -861,16 +949,16 @@ function EventsPage({ setPage }) {
         <SecTitle label="Configurable Layout Schematics" title="Select Event Environment Type" />
         <div className="responsive-grid responsive-grid-3">
           {[
-            { icon: "🎉", t: "Private Social Parties", d: "Unify responsive spatial entertainment with high-end hospitality features for memorable personal milestones.", page: "private-parties" },
-            { icon: "💼", t: "Corporate Outing Modules", d: "Deploy streamlined team-building games alongside dedicated high-contrast workspace settings.", page: "corporate-events" },
-            { icon: "🏆", t: "Custom Tournament Series", d: "Run complex individual or multi-team competitive formats supported by digital tracking structures.", page: "home" },
+            { t: "Private Social Parties", d: "Unify responsive spatial entertainment with high-end hospitality features for memorable personal milestones.", page: "private-parties" },
+            { t: "Corporate Outing Modules", d: "Deploy streamlined team-building games alongside dedicated high-contrast workspace settings.", page: "corporate-events" },
+            { t: "Custom Tournament Series", d: "Run complex individual or multi-team competitive formats supported by digital tracking structures.", page: "home" },
           ].map((c, i) => (
             <div key={i} style={{ background: C.dark, borderRadius: 24, padding: "44px 32px", cursor: "pointer", transition: "all 0.3s ease", border: "2px solid transparent" }}
               onClick={() => { setPage(c.page); window.scrollTo(0, 0); }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = C.green; e.currentTarget.style.transform = "translateY(-4px)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "transparent"; e.currentTarget.style.transform = ""; }}
             >
-              <h4 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 22, color: C.white, marginBottom: 12 }}>{c.t}</h4>
+              <h4 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 22, color: C.white, marginBottom: 12 }}>{c.t}</h4>
               <p style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>{c.d}</p>
             </div>
           ))}
@@ -891,11 +979,11 @@ function LeaguesPage() {
       <Sec>
         <SecTitle label="Systemic Benefits" title="Why Play In Structured Leagues?" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-3" style={{ marginBottom: 64 }}>
-          {[{ icon: "🏆", t: "Adaptive Tracking Ladders", d: "Experience fair, dynamic grouping logic that balances brackets around verified handicap outputs." }, { icon: "📅", t: "Predictable Routing Schedules", d: "Plan around reliable match windows designed to respect business or corporate schedules easily." }, { icon: "📈", t: "Continuous Skill Benchmarking", d: "Evaluate execution metrics under competitive pressure states to accelerate technical breakthroughs." }, { icon: "🤝", t: "Network Integration", d: "Connect with regional professionals and community members who share high-level design and play values." }, { icon: "🎊", t: "Hosted Mixer Finales", d: "Celebrate tournament completions during customized social gatherings with catering and live metrics boards." }, { icon: "⏰", t: "Climate-Controlled Safety", d: "Eliminate weather anomalies completely from long-term tracking profiles inside safe indoor settings." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Adaptive Tracking Ladders", d: "Experience fair, dynamic grouping logic that balances brackets around verified handicap outputs." }, { t: "Predictable Routing Schedules", d: "Plan around reliable match windows designed to respect business or corporate schedules easily." }, { t: "Continuous Skill Benchmarking", d: "Evaluate execution metrics under competitive pressure states to accelerate technical breakthroughs." }, { t: "Network Integration", d: "Connect with regional professionals and community members who share high-level design and play values." }, { t: "Hosted Mixer Finales", d: "Celebrate tournament completions during customized social gatherings with catering and live metrics boards." }, { t: "Climate-Controlled Safety", d: "Eliminate weather anomalies completely from long-term tracking profiles inside safe indoor settings." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
 
         <div style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
-          <h3 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 28, color: C.white, marginBottom: 16 }}>League Options</h3>
+          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>League Options</h3>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 40 }}>
             {["Men's Championship Division", "Women's Elite Bracket", "Jack & Jill Social Pairings", "Advanced Telemetry Skills League"].map(l => (
               <span key={l} style={{ padding: "10px 20px", borderRadius: 999, border: `1px solid rgba(44,198,76,0.3)`, fontSize: 13, color: "rgba(255,255,255,0.84)", fontWeight: 500, background: "rgba(255,255,255,0.02)" }}>{l}</span>
@@ -919,11 +1007,11 @@ function PrivatePartiesPage() {
       <Sec>
         <SecTitle label="VIP Frameworks" title="Elevate Standard Social Gatherings" />
         <div className="responsive-grid responsive-grid-3" style={{ marginBottom: 64 }}>
-          {[{ icon: "☀️", t: "Absolute Weather Insulated", d: "Guarantee consistent, uncompromised group execution metrics across any extreme environmental shifts outside." }, { icon: "🎨", t: "Granular Room Control", d: "Configure unique aesthetic presets, media playback streams, and seating parameters tailored to your target circle." }, { icon: "🤝", t: "Relaxed Communication Layouts", d: "Fluid architecture zones allowing guests to converse comfortably without breaking engagement from active gameplay spaces." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Absolute Weather Insulated", d: "Guarantee consistent, uncompromised group execution metrics across any extreme environmental shifts outside." }, { t: "Granular Room Control", d: "Configure unique aesthetic presets, media playback streams, and seating parameters tailored to your target circle." }, { t: "Relaxed Communication Layouts", d: "Fluid architecture zones allowing guests to converse comfortably without breaking engagement from active gameplay spaces." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
 
         <div style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
-          <h3 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 28, color: C.white, marginBottom: 16 }}>Private Suite Specs</h3>
+          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>Private Suite Specs</h3>
           <p style={{ fontSize: 15, color: "rgba(255,255,255,0.7)", maxWidth: 540, margin: "0 auto 36px", lineHeight: 1.7 }}>
             Each luxury suite comfortably handles up to 10 active profiles. Outfitted with high-speed computational backends and dedicated catering access configurations.
           </p>
@@ -946,7 +1034,7 @@ function CorporateEventsPage() {
       <Sec>
         <SecTitle label="Strategic Alignments" title="Why Modern Corporate Teams Outsource to Us" />
         <div className="responsive-grid responsive-grid-3">
-          {[{ icon: "🎨", t: "Dedicated Event Architects", d: "Collaborate straight with platform operational managers to sync timeline scripts and culinary configurations precisely." }, { icon: "👥", t: "High-Yield Team Synchronization", d: "Break down cross-department communication silos through accessible, gamified collaborative mechanics." }, { icon: "✨", t: "Impeccable Business Contexts", d: "A polished, professional environment balancing reliable technology spaces with high-end customer relaxation setups." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Dedicated Event Architects", d: "Collaborate straight with platform operational managers to sync timeline scripts and culinary configurations precisely." }, { t: "High-Yield Team Synchronization", d: "Break down cross-department communication silos through accessible, gamified collaborative mechanics." }, { t: "Impeccable Business Contexts", d: "A polished, professional environment balancing reliable technology spaces with high-end customer relaxation setups." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
       </Sec>
     </>
@@ -979,22 +1067,22 @@ function ClubFittingsPage() {
           {fittings.map(([name, desc, price, time], i) => (
             <div key={i} style={{
               display: "flex", justifyContent: "space-between", alignItems: "center",
-              padding: "20px 24px", background: C.white, borderRadius: 16, border: `1px solid ${C.grayLight}`, gap: 16, transition: "all 0.2s"
+              padding: "20px 24px", background: C.surface, borderRadius: 16, border: `1px solid ${C.grayLight}`, gap: 16, transition: "all 0.2s"
             }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = C.green; e.currentTarget.style.background = "#F4FBF6"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = C.grayLight; e.currentTarget.style.background = C.white; }}
             >
               <div>
-                <p style={{ fontFamily: "'Bitter', serif", fontWeight: 700, fontSize: 15, marginBottom: 4, color: C.black }}>{name}</p>
+                <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 15, marginBottom: 4, color: C.black }}>{name}</p>
                 <p style={{ fontSize: 13, color: C.gray }}>{desc} · <span style={{ fontWeight: 600 }}>{time}</span></p>
               </div>
-              <span style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 20, color: C.green, flexShrink: 0 }}>{price}</span>
+              <span style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 20, color: C.green, flexShrink: 0 }}>{price}</span>
             </div>
           ))}
         </div>
         <div style={{ textAlign: "center", marginBottom: 80 }}><Btn href={LINKS.clubFitting} size="lg">Book Master Fitting Session</Btn></div>
         <div className="responsive-grid responsive-grid-3">
-          {[{ icon: "🎯", t: "Minimized Dispersion Patterns", d: "Proper shaft and face pairings guarantee consistent impact points even on off-center strikes." }, { icon: "📏", t: "Maximized Force Multiplication", d: "Align launch angles and spin axis logic to convert raw clubhead speed into clean distance down the fairway." }, { icon: "💪", t: "Ergonomic Swing Comfort", d: "Gear matched precisely to your natural physical leverage points helps prevent execution fatigue over time." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Minimized Dispersion Patterns", d: "Proper shaft and face pairings guarantee consistent impact points even on off-center strikes." }, { t: "Maximized Force Multiplication", d: "Align launch angles and spin axis logic to convert raw clubhead speed into clean distance down the fairway." }, { t: "Ergonomic Swing Comfort", d: "Gear matched precisely to your natural physical leverage points helps prevent execution fatigue over time." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
       </Sec>
     </>
@@ -1012,11 +1100,11 @@ function TechnologyPage() {
       <Sec>
         <SecTitle label="Advanced Telemetry Metrics" title="Uncompromised Real-Time Tracking Vectors" />
         <div className="responsive-grid responsive-grid-3" style={{ marginBottom: 64 }}>
-          {[{ icon: "📐", t: "Instant Spatial Detection", d: "Industry-leading instant validation triggers register the ball location the moment it touches the strike zone." }, { icon: "🏌️", t: "Dynamic Clubhead Capture", d: "Tracks attack angle paths, accurate dynamic loft parameters, and face-to-path relationships down to micro-degrees." }, { icon: "🚀", t: "3D True Spin Measurement", d: "Calculates actual backspin, sidespin, and spin axis orientation without relying on speculative software approximations." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Instant Spatial Detection", d: "Industry-leading instant validation triggers register the ball location the moment it touches the strike zone." }, { t: "Dynamic Clubhead Capture", d: "Tracks attack angle paths, accurate dynamic loft parameters, and face-to-path relationships down to micro-degrees." }, { t: "3D True Spin Measurement", d: "Calculates actual backspin, sidespin, and spin axis orientation without relying on speculative software approximations." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
         </div>
 
         <div style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
-          <h3 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 28, color: C.white, marginBottom: 16 }}>Data Integrity Standards</h3>
+          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>Data Integrity Standards</h3>
           <p style={{ fontSize: 15, color: "rgba(255,255,255,0.7)", maxWidth: 640, margin: "0 auto 36px", lineHeight: 1.7 }}>
             By blending raw radar echoes with high-frequency optical imaging arrays, Trackman iO maintains a margin of error within 1.5 feet over a 300-yard flight simulation window.
           </p>
@@ -1039,8 +1127,8 @@ function ContactPage() {
       <Sec>
         <div className="responsive-grid responsive-grid-half" style={{ gap: 64 }}>
           <div>
-            <h2 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 32, marginBottom: 28 }}>Direct Communication Channels</h2>
-            {[{ icon: "📞", label: "Operations Hot Line", val: "(682) 400-8055", href: "tel:6824008055" }, { icon: "📍", label: "Geographic Space Coordinates", val: "2000 Matlock Rd, Ste 100, Mansfield, TX 76063", href: LINKS.directions }].map((c, i) => (
+            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 32, marginBottom: 28 }}>Direct Communication Channels</h2>
+            {[{ label: "Operations Hot Line", val: "(682) 400-8055", href: "tel:6824008055" }, { label: "Geographic Space Coordinates", val: "2000 Matlock Rd, Ste 100, Mansfield, TX 76063", href: LINKS.directions }].map((c, i) => (
               <a key={i} href={c.href} target="_blank" rel="noopener noreferrer"
                 style={{ display: "flex", gap: 16, alignItems: "flex-start", padding: "20px 0", borderBottom: `1px solid ${C.grayLight}` }}>
                 <div>
@@ -1060,7 +1148,7 @@ function ContactPage() {
           </div>
 
           <div>
-            <h2 style={{ fontFamily: "'Bitter', serif", fontWeight: 800, fontSize: 32, marginBottom: 28 }}>Inquire Systematically</h2>
+            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 32, marginBottom: 28 }}>Inquire Systematically</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {["User Profile Name", "Active Contact Email", "Phone Validation Number"].map(f => (
                 <div key={f}>
@@ -1094,8 +1182,23 @@ function ContactPage() {
 }
 
 // ─── MAIN APP CONTAINER ──────────────────────────────────────
+function getInitialTheme() {
+  if (typeof window === "undefined") return "light";
+  const stored = window.localStorage.getItem("theme");
+  if (stored === "light" || stored === "dark") return stored;
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
 export default function App() {
   const [page, setPage] = useState("home");
+  const [theme, setTheme] = useState(getInitialTheme);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    window.localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => setTheme(t => (t === "dark" ? "light" : "dark"));
 
   const pages = {
     home: <HomePage setPage={setPage} />,
@@ -1113,7 +1216,7 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <Navbar page={page} setPage={setPage} />
+      <Navbar page={page} setPage={setPage} theme={theme} toggleTheme={toggleTheme} />
       <div style={{ flex: "1 0 auto" }}>
         {pages[page] || pages.home}
       </div>

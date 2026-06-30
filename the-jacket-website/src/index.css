@@ -1,21 +1,35 @@
 :root {
-  /* ─── Color tokens — "fairway green jacket" ──────────────── */
-  --color-green: #158445;
-  --color-green-hover: #006B32;
-  --color-green-accent: #42AA60;
-  --color-dark: #072212;
-  --color-dark-mid: #102F1D;
-  --color-paper: #F7FBF8;
-  --color-cream: #FAECDA;
-  --color-brass: #D3A35D;
-  --color-brass-hover: #BE8E48;
-  --color-ink: #101511;
-  --color-gray: #525D54;
-  --color-border: #E4E1D8;
-  --color-green-wash: #EAF8E9;
+  color-scheme: light;
+
+  /* ─── Theme tokens — light (default) ─────────────────────── */
+  --bg: #F7FBF8;            /* page background */
+  --surface: #FFFFFF;       /* cards, elevated light sections */
+  --surface-warm: #FAECDA;  /* warm "cream" sections */
+  --surface-green: #EAF8E9; /* tinted green sections */
+  --white: #F7FBF8;         /* near-white constant for on-dark text/chips */
+  --text: #101511;          /* primary text */
+  --text-muted: #525D54;    /* secondary text */
+  --border: #E4E1D8;        /* hairline borders/dividers */
+  --brand-dark: #072212;    /* dark-green brand sections */
+  --brand-dark-mid: #102F1D;
+  --green: #158445;
+  --green-hover: #006B32;
+  --green-accent: #42AA60;
+  --brass: #D3A35D;
+  --brass-hover: #BE8E48;
+
+  /* Legacy aliases used by rules in this stylesheet */
+  --color-green: var(--green);
+  --color-green-hover: var(--green-hover);
+  --color-brass: var(--brass);
+  --color-brass-hover: var(--brass-hover);
+  --color-dark-mid: var(--brand-dark-mid);
+  --color-green-wash: var(--surface-green);
+  --color-paper: var(--bg);
+  --color-ink: var(--text);
 
   /* ─── Type ────────────────────────────────────────────────── */
-  --font-display: 'Bitter', Georgia, serif;
+  --font-display: 'Familjen Grotesk', 'Public Sans', sans-serif;
   --font-body: 'Public Sans', system-ui, sans-serif;
 
   /* ─── Motion ──────────────────────────────────────────────── */
@@ -30,17 +44,44 @@
   --z-toast: 1200;
 }
 
+/* ─── Theme tokens — dark (rich near-black) ────────────────── */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #0B0B0C;
+  --surface: #16161A;
+  --surface-warm: #1B1613;
+  --surface-green: #0E140D;
+  --white: #F2F5F2;
+  --text: #F2F5F2;
+  --text-muted: #A6ADA7;
+  --border: #2A2C2E;
+  --brand-dark: #101312;
+  --brand-dark-mid: #181C19;
+  --green: #2FB45F;
+  --green-hover: #259A4F;
+  --green-accent: #5BC97E;
+  --brass: #E0B36A;
+  --brass-hover: #CC9F57;
+}
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { scroll-behavior: smooth; font-size: 16px; -webkit-text-size-adjust: 100%; }
 
 body {
   font-family: var(--font-body);
-  background: var(--color-paper);
-  color: var(--color-ink);
+  background: var(--bg);
+  color: var(--text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+/* Theme-aware easing for surfaces that read color from tokens */
+@media (prefers-reduced-motion: no-preference) {
+  .theme-tx { transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease; }
 }
 
 h1, h2, h3 { text-wrap: balance; }
@@ -87,7 +128,7 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
 .btn-hover-outline:hover { background: rgba(255,255,255,0.1) !important; transform: translateY(-1px); }
 .btn-hover-outlineD:hover { background: rgba(16,21,17,0.05) !important; transform: translateY(-1px); }
 .btn-hover-dark:hover    { background: var(--color-dark-mid) !important; border-color: var(--color-dark-mid) !important; transform: translateY(-1px); }
-.btn-hover-white:hover   { background: var(--color-paper) !important; transform: translateY(-1px); }
+.btn-hover-white:hover   { background: #E6ECE6 !important; transform: translateY(-1px); }
 .btn-hover-brass:hover   { background: var(--color-brass-hover) !important; border-color: var(--color-brass-hover) !important; transform: translateY(-1px); }
 
 .nav-link { position: relative; }

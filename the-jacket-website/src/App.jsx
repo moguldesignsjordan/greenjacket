@@ -98,6 +98,8 @@ function Icon({ name, size = 24, stroke = 1.75, color = "currentColor", style = 
     spark: <><path {...p} d="M12 3v3.5M12 17.5V21M3 12h3.5M17.5 12H21" /><path {...p} d="M12 7l1.7 3.3L17 12l-3.3 1.7L12 17l-1.7-3.3L7 12l3.3-1.7z" /></>,
     pin:   <><path {...p} d="M12 21s7-5.3 7-11a7 7 0 1 0-14 0c0 5.7 7 11 7 11z" /><circle {...p} cx="12" cy="10" r="2.5" /></>,
     check: <path {...p} d="M5 12.5l4.5 4.5L19 7" />,
+    mail:  <><path {...p} d="M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1z" /><path {...p} d="M4 6.5l8 6 8-6" /></>,
+    phone: <path {...p} d="M6.6 10.8a15.6 15.6 0 0 0 6.6 6.6l2.1-2.1a1.2 1.2 0 0 1 1.27-.27c1 .35 2.1.55 3.2.55.7 0 1.3.6 1.3 1.3V20c0 .7-.6 1.2-1.3 1.2C10.8 21.2 2.8 13.2 2.8 4.3 2.8 3.6 3.3 3 4 3h3.3c.7 0 1.3.6 1.3 1.3 0 1.1.2 2.2.55 3.2.1.44 0 .93-.28 1.27z" />,
     sun:   <><circle {...p} cx="12" cy="12" r="4" /><path {...p} d="M12 2.5V5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8" /></>,
     moon:  <path {...p} d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" />,
     chevronDown: <path {...p} d="M5 9l7 7 7-7" />,
@@ -330,121 +332,169 @@ function Navbar({ page, setPage }) {
 }
 
 // ─── FOOTER ──────────────────────────────────────────────────
-function Footer({ setPage }) {
-  const large = [{ id: "home", label: "Book A Bay", href: LINKS.bookBay }, { id: "memberships", label: "Memberships" }, { id: "lessons", label: "Lessons" }, { id: "contact", label: "Food & Drinks", href: LINKS.food }];
-  const small = [
-    [{ id: "ways-to-play", label: "Ways To Play" }, { id: "club-fittings", label: "Club Fittings" }, { id: "private-parties", label: "Private Parties" }, { id: "corporate-events", label: "Corporate Events" }],
-    [{ id: "events", label: "Events" }, { id: "leagues", label: "Leagues" }, { id: "technology", label: "Our Technology" }, { id: "contact", label: "Contact Us" }],
-  ];
+const FOOTER_SOCIALS = [
+  { href: LINKS.facebook, label: "Facebook", icon: <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
+  { href: LINKS.instagram, label: "Instagram", icon: <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg> },
+  { href: LINKS.tiktok, label: "TikTok", icon: <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.61a8.18 8.18 0 0 0 4.78 1.52V6.68a4.85 4.85 0 0 1-1.01.01z" /></svg> },
+];
 
+const FOOTER_NAV = [
+  { title: "Play", items: [
+    { id: "home", label: "Book A Bay", href: LINKS.bookBay },
+    { id: "ways-to-play", label: "Ways To Play" },
+    { id: "leagues", label: "Leagues" },
+  ]},
+  { title: "Learn & Improve", items: [
+    { id: "lessons", label: "Lessons & Coaching" },
+    { id: "club-fittings", label: "Club Fittings" },
+    { id: "technology", label: "Our Technology" },
+  ]},
+  { title: "Events & Groups", items: [
+    { id: "events", label: "Events & Parties" },
+    { id: "private-parties", label: "Private Parties" },
+    { id: "corporate-events", label: "Corporate Events" },
+  ]},
+  { title: "Visit & Join", items: [
+    { id: "memberships", label: "Memberships" },
+    { id: "food", label: "Food & Drinks", href: LINKS.food },
+    { id: "contact", label: "Contact & Hours" },
+  ]},
+];
+
+function FooterNavLink({ item, setPage }) {
+  const style = {
+    fontSize: 14, fontWeight: 500, color: "rgba(247,251,248,0.8)", cursor: "pointer",
+    transition: "color 0.2s", width: "fit-content"
+  };
+  const onMouseEnter = e => e.currentTarget.style.color = C.brass;
+  const onMouseLeave = e => e.currentTarget.style.color = "rgba(247,251,248,0.8)";
+
+  if (item.href) return (
+    <a href={item.href} target="_blank" rel="noopener noreferrer" style={style} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>{item.label}</a>
+  );
   return (
-    <>
-      {/* Footer */}
-      <footer style={{ background: "#072212", borderTop: "1px solid rgba(255,255,255,0.08)", padding: "64px 24px 32px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+    <span onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={style} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>{item.label}</span>
+  );
+}
 
-          <div className="responsive-grid responsive-grid-3" style={{ gap: 40, marginBottom: 56 }}>
-            {/* Primary Global Navigation Map */}
+function FooterSocialRow({ size = 36 }) {
+  return (
+    <div style={{ display: "flex", gap: 10 }}>
+      {FOOTER_SOCIALS.map(soc => (
+        <a key={soc.label} href={soc.href} target="_blank" rel="noopener noreferrer" aria-label={soc.label}
+          style={{
+            width: size, height: size, borderRadius: "50%", background: "rgba(255,255,255,0.08)", display: "flex",
+            alignItems: "center", justifyContent: "center", color: C.white, transition: "all 0.2s cubic-bezier(0.16, 1, 0.3, 1)", flexShrink: 0
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = C.brass; e.currentTarget.style.color = "#072212"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+          onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.08)"; e.currentTarget.style.color = C.white; e.currentTarget.style.transform = "translateY(0)"; }}
+        >
+          {soc.icon}
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function FooterInput({ icon, ...props }) {
+  return (
+    <div style={{ position: "relative", flex: "1 1 190px" }}>
+      <Icon name={icon} size={15} stroke={1.8} style={{ position: "absolute", left: 15, top: "50%", transform: "translateY(-50%)", color: "rgba(247,251,248,0.4)", pointerEvents: "none" }} />
+      <input
+        {...props}
+        style={{
+          width: "100%", padding: "13px 14px 13px 40px", borderRadius: 10, border: "1.5px solid rgba(255,255,255,0.14)",
+          background: "rgba(255,255,255,0.05)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14,
+          outline: "none", transition: "border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+        }}
+        onFocus={e => e.target.style.borderColor = C.brass}
+        onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.14)"}
+      />
+    </div>
+  );
+}
+
+function Footer({ setPage }) {
+  return (
+    <footer style={{ background: "#072212", borderTop: "1px solid rgba(255,255,255,0.08)", padding: "72px 24px 32px" }}>
+      <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+
+        {/* Brand + Navigation */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "48px 56px", marginBottom: 52 }}>
+
+          {/* Brand column */}
+          <div style={{ flex: "1 1 260px", maxWidth: 300, display: "flex", flexDirection: "column", gap: 20 }}>
+            <Logo size={54} />
+            <p style={{ fontSize: 14, color: "rgba(247,251,248,0.62)", lineHeight: 1.7 }}>
+              Premium golf simulator bays and a laid-back neighborhood bar, all under one roof in Mansfield.
+            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {large.map(item => (
-                <div key={item.label} style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 20, fontWeight: 700 }}>
-                  {item.href ? (
-                    <a href={item.href} target="_blank" rel="noopener noreferrer" style={{ color: C.white }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = C.white}>{item.label}</a>
-                  ) : (
-                    <span onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ color: C.white, cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = C.white}>{item.label}</span>
-                  )}
-                </div>
-              ))}
+              <a href={LINKS.directions} target="_blank" rel="noopener noreferrer"
+                style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 13.5, color: "rgba(247,251,248,0.75)", lineHeight: 1.5, transition: "color 0.2s" }}
+                onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = "rgba(247,251,248,0.75)"}>
+                <Icon name="pin" size={16} stroke={1.8} style={{ color: C.brass, marginTop: 1, flexShrink: 0 }} />
+                2000 Matlock Rd, Ste 100<br />Mansfield, TX 76063
+              </a>
+              <a href="tel:6824008055"
+                style={{ display: "flex", gap: 10, alignItems: "center", fontSize: 13.5, fontWeight: 600, color: "rgba(247,251,248,0.9)", transition: "color 0.2s" }}
+                onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = "rgba(247,251,248,0.9)"}>
+                <Icon name="phone" size={16} stroke={1.8} style={{ color: C.brass, flexShrink: 0 }} />
+                (682) 400-8055
+              </a>
             </div>
-
-            {/* Supplementary Links Col 1 */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: "rgba(247,251,248,0.5)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Play</p>
-              {small[0].map(item => (
-                <span key={item.label} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ fontSize: 14, fontWeight: 500, color: "rgba(247,251,248,0.85)", cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = "rgba(247,251,248,0.85)"}>{item.label}</span>
-              ))}
-            </div>
-
-            {/* Supplementary Links Col 2 */}
-            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: "rgba(247,251,248,0.5)", textTransform: "uppercase", letterSpacing: 1, marginBottom: 4 }}>Events & Community</p>
-              {small[1].map(item => (
-                <span key={item.label} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }} style={{ fontSize: 14, fontWeight: 500, color: "rgba(247,251,248,0.85)", cursor: "pointer" }} onMouseEnter={e => e.currentTarget.style.color = C.brass} onMouseLeave={e => e.currentTarget.style.color = "rgba(247,251,248,0.85)"}>{item.label}</span>
-              ))}
-            </div>
+            <FooterSocialRow />
           </div>
 
-          {/* Messaging Signup & Social Identity Segment */}
-          <div style={{
-            background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: "28px 32px", marginBottom: 32
-          }}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
-              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 18, fontWeight: 700, color: C.white, maxWidth: 380, lineHeight: 1.4 }}>
-                Subscribe for updates and $20 off your first bay rental at The Jacket.
-              </p>
-              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-                <p style={{ fontSize: 13, fontWeight: 600, color: "rgba(247,251,248,0.6)", whiteSpace: "nowrap" }}>Follow us on social media</p>
-                <div style={{ display: "flex", gap: 10 }}>
-                  {[
-                    { href: LINKS.facebook, icon: <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
-                    { href: LINKS.instagram, icon: <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg> },
-                    { href: LINKS.tiktok, icon: <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.61a8.18 8.18 0 0 0 4.78 1.52V6.68a4.85 4.85 0 0 1-1.01.01z" /></svg> }
-                  ].map((soc, idx) => (
-                    <a key={idx} href={soc.href} target="_blank" rel="noopener noreferrer"
-                      style={{
-                        width: 36, height: 36, borderRadius: "50%", background: C.white, display: "flex",
-                        alignItems: "center", justifyContent: "center", color: "#072212", transition: "all 0.2s", flexShrink: 0
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.background = C.brass; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = C.white; }}
-                    >
-                      {soc.icon}
-                    </a>
-                  ))}
-                </div>
+          {/* Nav groups */}
+          <div style={{ flex: "3 1 480px", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "36px 24px" }}>
+            {FOOTER_NAV.map(group => (
+              <div key={group.title} style={{ display: "flex", flexDirection: "column", gap: 13 }}>
+                <p style={{ fontSize: 12, fontWeight: 700, color: "rgba(247,251,248,0.4)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 2 }}>{group.title}</p>
+                {group.items.map(item => <FooterNavLink key={item.label} item={item} setPage={setPage} />)}
               </div>
-            </div>
+            ))}
+          </div>
+        </div>
 
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              <input type="email" placeholder="Email" style={{
-                flex: "1 1 180px", padding: "13px 16px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
-                background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
-              }}
-                onFocus={e => e.target.style.borderColor = C.brass}
-                onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
-              />
-              <input type="tel" placeholder="Phone Number" style={{
-                flex: "1 1 180px", padding: "13px 16px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
-                background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
-              }}
-                onFocus={e => e.target.style.borderColor = C.brass}
-                onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
-              />
+        {/* Subscribe card */}
+        <div style={{
+          background: "rgba(255,255,255,0.04)", border: "1px solid rgba(211,163,93,0.22)", borderRadius: 20,
+          padding: "30px 32px", marginBottom: 40, display: "flex", flexWrap: "wrap", gap: "24px 40px", alignItems: "flex-start"
+        }}>
+          <div style={{ flex: "1 1 260px", maxWidth: 320 }}>
+            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 20, fontWeight: 700, color: C.white, marginBottom: 6, lineHeight: 1.3 }}>
+              Get $20 off your first bay
+            </p>
+            <p style={{ fontSize: 13.5, color: "rgba(247,251,248,0.6)", lineHeight: 1.6 }}>
+              Subscribe for flash deals, league updates, and event info from The Jacket.
+            </p>
+          </div>
+
+          <div style={{ flex: "2 1 380px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
+              <FooterInput icon="mail" type="email" placeholder="Email" />
+              <FooterInput icon="phone" type="tel" placeholder="Phone Number" />
               <Btn variant="brass" size="md">Subscribe</Btn>
             </div>
-
-            <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 14 }}>
+            <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
               <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 15, height: 15, marginTop: 2, flexShrink: 0 }} />
               <label htmlFor="sms" style={{ fontSize: 11.5, color: "rgba(247,251,248,0.5)", lineHeight: 1.5 }}>
                 I agree to receive recurring SMS/text messages from The Jacket for updates, promotions, and event info. Message & data rates may apply. Msg frequency varies. Reply STOP to opt out or HELP for help. See our Privacy Policy & Terms.
               </label>
             </div>
           </div>
-
-          {/* Legal Meta Frame */}
-          <div style={{
-            display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24,
-            borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 32
-          }}>
-            <Logo size={46} />
-            <div style={{ textAlign: "right", minWidth: 240 }}>
-              <p style={{ fontSize: 14, fontWeight: 500, color: C.white }}>2000 Matlock Rd, Ste 100, Mansfield, TX 76063</p>
-              <p style={{ fontSize: 12, color: "rgba(247,251,248,0.6)", marginTop: 4 }}>© 2026 The Jacket LLC. All rights reserved.</p>
-            </div>
-          </div>
         </div>
-      </footer>
-    </>
+
+        {/* Legal bar */}
+        <div style={{
+          display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12,
+          borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24, fontSize: 12.5, color: "rgba(247,251,248,0.5)"
+        }}>
+          <p>© 2026 The Jacket LLC. All rights reserved.</p>
+          <p>Mansfield, TX</p>
+        </div>
+      </div>
+    </footer>
   );
 }
 

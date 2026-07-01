@@ -452,8 +452,8 @@ function Footer({ setPage }) {
         <div style={{ display: "flex", flexWrap: "wrap", gap: "48px 56px", marginBottom: 40 }}>
 
           {/* Brand column */}
-          <div style={{ flex: "1 1 260px", maxWidth: 300, display: "flex", flexDirection: "column", gap: 20 }}>
-            <Logo size={54} />
+          <div style={{ flex: "1 1 260px", maxWidth: 300, display: "flex", flexDirection: "column", gap: 13 }}>
+            <p style={{ fontSize: 12, fontWeight: 700, color: "rgba(247,251,248,0.4)", textTransform: "uppercase", letterSpacing: 1.2, marginBottom: 2 }}>Contact</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <a href={LINKS.directions} target="_blank" rel="noopener noreferrer"
                 style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 13.5, color: "rgba(247,251,248,0.75)", lineHeight: 1.5, transition: "color 0.2s" }}

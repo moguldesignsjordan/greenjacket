@@ -376,18 +376,48 @@ function Footer({ setPage }) {
 
           {/* Messaging Signup & Social Identity Segment */}
           <div style={{
-            display: "flex", flexWrap: "wrap", gap: 28, alignItems: "center", justifyContent: "space-between",
+            display: "flex", flexWrap: "wrap", gap: 32, alignItems: "flex-start", justifyContent: "space-between",
             background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: "28px 32px", marginBottom: 32
           }}>
-            <div style={{ display: "flex", gap: 12, alignItems: "flex-start", maxWidth: 420 }}>
-              <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 18, height: 18, marginTop: 2, flexShrink: 0 }} />
-              <label htmlFor="sms" style={{ fontSize: 13, color: "rgba(247,251,248,0.7)", lineHeight: 1.6 }}>
-                Get texts about flash deals, league updates, and upcoming events at The Jacket. Reply STOP anytime to opt out.
-              </label>
+            <div style={{ flex: "1 1 380px", maxWidth: 480 }}>
+              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 18, fontWeight: 700, color: C.white, marginBottom: 18, lineHeight: 1.4 }}>
+                Subscribe for updates and $20 off your first bay rental at The Jacket.
+              </p>
+
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 16 }}>
+                <div style={{ flex: "1 1 160px" }}>
+                  <label htmlFor="footer-email" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "rgba(247,251,248,0.6)", display: "block", marginBottom: 8 }}>Email</label>
+                  <input id="footer-email" type="email" placeholder="Your Email" style={{
+                    width: "100%", padding: "13px 14px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
+                    background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+                  }}
+                    onFocus={e => e.target.style.borderColor = C.brass}
+                    onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
+                  />
+                </div>
+                <div style={{ flex: "1 1 160px" }}>
+                  <label htmlFor="footer-phone" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "rgba(247,251,248,0.6)", display: "block", marginBottom: 8 }}>Phone</label>
+                  <input id="footer-phone" type="tel" placeholder="Phone Number" style={{
+                    width: "100%", padding: "13px 14px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
+                    background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+                  }}
+                    onFocus={e => e.target.style.borderColor = C.brass}
+                    onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
+                  />
+                </div>
+                <Btn variant="brass" size="md" style={{ alignSelf: "flex-end" }}>Subscribe</Btn>
+              </div>
+
+              <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 16, height: 16, marginTop: 3, flexShrink: 0 }} />
+                <label htmlFor="sms" style={{ fontSize: 12, color: "rgba(247,251,248,0.6)", lineHeight: 1.6 }}>
+                  I agree to receive recurring SMS/text messages from The Jacket for updates, promotions, and event info. Message & data rates may apply. Msg frequency varies. Reply STOP to opt out or HELP for help. See our Privacy Policy & Terms.
+                </label>
+              </div>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: 0.3, whiteSpace: "nowrap", color: C.white }}>Follow Us</p>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 14 }}>
+              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: 0.3, whiteSpace: "nowrap", color: C.white }}>Follow us on social media</p>
               <div style={{ display: "flex", gap: 14 }}>
                 {[
                   { href: LINKS.facebook, icon: <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },

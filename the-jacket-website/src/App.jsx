@@ -419,8 +419,37 @@ function Footer({ setPage }) {
     <footer style={{ background: "#072212", borderTop: "1px solid rgba(255,255,255,0.08)", padding: "72px 24px 32px" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto" }}>
 
+        {/* Subscribe card */}
+        <div style={{
+          background: "rgba(255,255,255,0.04)", border: "1px solid rgba(211,163,93,0.22)", borderRadius: 20,
+          padding: "30px 32px", marginBottom: 48, display: "flex", flexWrap: "wrap", gap: "24px 40px", alignItems: "flex-start"
+        }}>
+          <div style={{ flex: "1 1 260px", maxWidth: 320 }}>
+            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 20, fontWeight: 700, color: C.white, marginBottom: 6, lineHeight: 1.3 }}>
+              Get $20 off your first bay
+            </p>
+            <p style={{ fontSize: 13.5, color: "rgba(247,251,248,0.6)", lineHeight: 1.6 }}>
+              Subscribe for flash deals, league updates, and event info from The Jacket.
+            </p>
+          </div>
+
+          <div style={{ flex: "2 1 380px" }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
+              <FooterInput icon="mail" type="email" placeholder="Email" />
+              <FooterInput icon="phone" type="tel" placeholder="Phone Number" />
+              <Btn variant="brass" size="md">Subscribe</Btn>
+            </div>
+            <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+              <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 15, height: 15, marginTop: 2, flexShrink: 0 }} />
+              <label htmlFor="sms" style={{ fontSize: 11.5, color: "rgba(247,251,248,0.5)", lineHeight: 1.5 }}>
+                I agree to receive recurring SMS/text messages from The Jacket for updates, promotions, and event info. Message & data rates may apply. Msg frequency varies. Reply STOP to opt out or HELP for help. See our Privacy Policy & Terms.
+              </label>
+            </div>
+          </div>
+        </div>
+
         {/* Brand + Navigation */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "48px 56px", marginBottom: 52 }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "48px 56px", marginBottom: 40 }}>
 
           {/* Brand column */}
           <div style={{ flex: "1 1 260px", maxWidth: 300, display: "flex", flexDirection: "column", gap: 20 }}>
@@ -453,35 +482,6 @@ function Footer({ setPage }) {
                 {group.items.map(item => <FooterNavLink key={item.label} item={item} setPage={setPage} />)}
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Subscribe card */}
-        <div style={{
-          background: "rgba(255,255,255,0.04)", border: "1px solid rgba(211,163,93,0.22)", borderRadius: 20,
-          padding: "30px 32px", marginBottom: 40, display: "flex", flexWrap: "wrap", gap: "24px 40px", alignItems: "flex-start"
-        }}>
-          <div style={{ flex: "1 1 260px", maxWidth: 320 }}>
-            <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 20, fontWeight: 700, color: C.white, marginBottom: 6, lineHeight: 1.3 }}>
-              Get $20 off your first bay
-            </p>
-            <p style={{ fontSize: 13.5, color: "rgba(247,251,248,0.6)", lineHeight: 1.6 }}>
-              Subscribe for flash deals, league updates, and event info from The Jacket.
-            </p>
-          </div>
-
-          <div style={{ flex: "2 1 380px" }}>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10, marginBottom: 14 }}>
-              <FooterInput icon="mail" type="email" placeholder="Email" />
-              <FooterInput icon="phone" type="tel" placeholder="Phone Number" />
-              <Btn variant="brass" size="md">Subscribe</Btn>
-            </div>
-            <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-              <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 15, height: 15, marginTop: 2, flexShrink: 0 }} />
-              <label htmlFor="sms" style={{ fontSize: 11.5, color: "rgba(247,251,248,0.5)", lineHeight: 1.5 }}>
-                I agree to receive recurring SMS/text messages from The Jacket for updates, promotions, and event info. Message & data rates may apply. Msg frequency varies. Reply STOP to opt out or HELP for help. See our Privacy Policy & Terms.
-              </label>
-            </div>
           </div>
         </div>
 

@@ -376,66 +376,58 @@ function Footer({ setPage }) {
 
           {/* Messaging Signup & Social Identity Segment */}
           <div style={{
-            display: "flex", flexWrap: "wrap", gap: 32, alignItems: "flex-start", justifyContent: "space-between",
             background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 20, padding: "28px 32px", marginBottom: 32
           }}>
-            <div style={{ flex: "1 1 380px", maxWidth: 480 }}>
-              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 18, fontWeight: 700, color: C.white, marginBottom: 18, lineHeight: 1.4 }}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
+              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 18, fontWeight: 700, color: C.white, maxWidth: 380, lineHeight: 1.4 }}>
                 Subscribe for updates and $20 off your first bay rental at The Jacket.
               </p>
-
-              <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: 16 }}>
-                <div style={{ flex: "1 1 160px" }}>
-                  <label htmlFor="footer-email" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "rgba(247,251,248,0.6)", display: "block", marginBottom: 8 }}>Email</label>
-                  <input id="footer-email" type="email" placeholder="Your Email" style={{
-                    width: "100%", padding: "13px 14px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
-                    background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
-                  }}
-                    onFocus={e => e.target.style.borderColor = C.brass}
-                    onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
-                  />
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+                <p style={{ fontSize: 13, fontWeight: 600, color: "rgba(247,251,248,0.6)", whiteSpace: "nowrap" }}>Follow us on social media</p>
+                <div style={{ display: "flex", gap: 10 }}>
+                  {[
+                    { href: LINKS.facebook, icon: <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
+                    { href: LINKS.instagram, icon: <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg> },
+                    { href: LINKS.tiktok, icon: <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.61a8.18 8.18 0 0 0 4.78 1.52V6.68a4.85 4.85 0 0 1-1.01.01z" /></svg> }
+                  ].map((soc, idx) => (
+                    <a key={idx} href={soc.href} target="_blank" rel="noopener noreferrer"
+                      style={{
+                        width: 36, height: 36, borderRadius: "50%", background: C.white, display: "flex",
+                        alignItems: "center", justifyContent: "center", color: "#072212", transition: "all 0.2s", flexShrink: 0
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.background = C.brass; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = C.white; }}
+                    >
+                      {soc.icon}
+                    </a>
+                  ))}
                 </div>
-                <div style={{ flex: "1 1 160px" }}>
-                  <label htmlFor="footer-phone" style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: "rgba(247,251,248,0.6)", display: "block", marginBottom: 8 }}>Phone</label>
-                  <input id="footer-phone" type="tel" placeholder="Phone Number" style={{
-                    width: "100%", padding: "13px 14px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
-                    background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
-                  }}
-                    onFocus={e => e.target.style.borderColor = C.brass}
-                    onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
-                  />
-                </div>
-                <Btn variant="brass" size="md" style={{ alignSelf: "flex-end" }}>Subscribe</Btn>
-              </div>
-
-              <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 16, height: 16, marginTop: 3, flexShrink: 0 }} />
-                <label htmlFor="sms" style={{ fontSize: 12, color: "rgba(247,251,248,0.6)", lineHeight: 1.6 }}>
-                  I agree to receive recurring SMS/text messages from The Jacket for updates, promotions, and event info. Message & data rates may apply. Msg frequency varies. Reply STOP to opt out or HELP for help. See our Privacy Policy & Terms.
-                </label>
               </div>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 14 }}>
-              <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontSize: 16, fontWeight: 700, letterSpacing: 0.3, whiteSpace: "nowrap", color: C.white }}>Follow us on social media</p>
-              <div style={{ display: "flex", gap: 14 }}>
-                {[
-                  { href: LINKS.facebook, icon: <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
-                  { href: LINKS.instagram, icon: <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="5" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" /></svg> },
-                  { href: LINKS.tiktok, icon: <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.61a8.18 8.18 0 0 0 4.78 1.52V6.68a4.85 4.85 0 0 1-1.01.01z" /></svg> }
-                ].map((soc, idx) => (
-                  <a key={idx} href={soc.href} target="_blank" rel="noopener noreferrer"
-                    style={{
-                      width: 42, height: 42, borderRadius: "50%", background: C.white, display: "flex",
-                      alignItems: "center", justifyContent: "center", color: "#072212", border: `1.5px solid ${C.brass}`, transition: "all 0.2s", flexShrink: 0
-                    }}
-                    onMouseEnter={e => { e.currentTarget.style.transform = "scale(1.08)"; e.currentTarget.style.background = C.brass; }}
-                    onMouseLeave={e => { e.currentTarget.style.transform = "scale(1)"; e.currentTarget.style.background = C.white; }}
-                  >
-                    {soc.icon}
-                  </a>
-                ))}
-              </div>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <input type="email" placeholder="Email" style={{
+                flex: "1 1 180px", padding: "13px 16px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
+                background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
+                onFocus={e => e.target.style.borderColor = C.brass}
+                onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
+              />
+              <input type="tel" placeholder="Phone Number" style={{
+                flex: "1 1 180px", padding: "13px 16px", borderRadius: 10, border: "2px solid rgba(255,255,255,0.15)",
+                background: "rgba(255,255,255,0.06)", color: C.white, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+              }}
+                onFocus={e => e.target.style.borderColor = C.brass}
+                onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.15)"}
+              />
+              <Btn variant="brass" size="md">Subscribe</Btn>
+            </div>
+
+            <div style={{ display: "flex", gap: 10, alignItems: "flex-start", marginTop: 14 }}>
+              <input type="checkbox" id="sms" style={{ accentColor: C.brass, width: 15, height: 15, marginTop: 2, flexShrink: 0 }} />
+              <label htmlFor="sms" style={{ fontSize: 11.5, color: "rgba(247,251,248,0.5)", lineHeight: 1.5 }}>
+                I agree to receive recurring SMS/text messages from The Jacket for updates, promotions, and event info. Message & data rates may apply. Msg frequency varies. Reply STOP to opt out or HELP for help. See our Privacy Policy & Terms.
+              </label>
             </div>
           </div>
 

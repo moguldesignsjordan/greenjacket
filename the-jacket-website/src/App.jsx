@@ -3,6 +3,7 @@ import logoImg from "./assets/TheJacket.png";
 import simulatorBaySwing from "./assets/simulator-bay-swing.jpg";
 import simulatorBayLounge from "./assets/simulator-bay-lounge.jpg";
 import lessonClubFitting from "./assets/lesson-club-fitting.jpg";
+import golfBall from "./assets/golfball.jpg";
 import leagueTeamPhoto from "./assets/league-team-photo.jpg";
 import memberTechBay from "./assets/member-tech-bay.jpg";
 import bartenderCocktail from "./assets/bartender-cocktail.jpg";
@@ -209,10 +210,11 @@ function Navbar({ page, setPage }) {
   }, []);
 
   const navItems = [
-    { id: "home", label: "Book A Bay" },
+    { id: "home", label: "Home" },
     { id: "memberships", label: "Memberships" },
     { id: "lessons", label: "Lessons" },
-    { id: "contact", label: "Food + Drinks" }
+    { id: "food", label: "Food + Drinks", href: LINKS.food },
+    { id: "contact", label: "Contact Us" }
   ];
 
   return (
@@ -255,12 +257,21 @@ function Navbar({ page, setPage }) {
           {/* Inline Navigation Menu (Desktop Mode) */}
           <div style={{ display: "flex", alignItems: "center", gap: 28, flexShrink: 0 }} className="tj-desk-nav">
             {navItems.map(item => (
-              <span key={item.id} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }}
-                className="nav-link"
-                style={{ fontSize: 14, fontFamily: "'Public Sans', sans-serif", fontWeight: 500, letterSpacing: 0.3, whiteSpace: "nowrap", color: page === item.id ? C.brass : "rgba(247,251,248,0.85)", cursor: "pointer", transition: "color 0.2s" }}
-              >
-                {item.label}
-              </span>
+              item.href ? (
+                <a key={item.id} href={item.href} target="_blank" rel="noopener noreferrer"
+                  className="nav-link"
+                  style={{ fontSize: 14, fontFamily: "'Public Sans', sans-serif", fontWeight: 500, letterSpacing: 0.3, whiteSpace: "nowrap", color: "rgba(247,251,248,0.85)", cursor: "pointer", transition: "color 0.2s" }}
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <span key={item.id} onClick={() => { setPage(item.id); window.scrollTo(0, 0); }}
+                  className="nav-link"
+                  style={{ fontSize: 14, fontFamily: "'Public Sans', sans-serif", fontWeight: 500, letterSpacing: 0.3, whiteSpace: "nowrap", color: page === item.id ? C.brass : "rgba(247,251,248,0.85)", cursor: "pointer", transition: "color 0.2s" }}
+                >
+                  {item.label}
+                </span>
+              )
             ))}
           </div>
 
@@ -971,7 +982,7 @@ function LessonsPage() {
     <>
       <PageHero title="Better Golf Starts" titleGreen="With The Right Coach"
         subtitle="Work one-on-one with a certified coach using real Trackman data to fix what's holding your swing back."
-        image={lessonClubFitting} imageAlt="A coach at The Jacket guiding a student's swing on a Trackman simulator bay"
+        image={golfBall} imageAlt="A golf ball at The Jacket's indoor golf simulator bay"
         cta1={<Btn href={LINKS.lessons} size="lg">Book A Lesson</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.memberStandard}>View Membership Plans</Btn>}
       />

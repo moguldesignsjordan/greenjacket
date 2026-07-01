@@ -5,6 +5,7 @@ import simulatorBayLounge from "./assets/simulator-bay-lounge.jpg";
 import lessonClubFitting from "./assets/lesson-club-fitting.jpg";
 import leagueTeamPhoto from "./assets/league-team-photo.jpg";
 import memberTechBay from "./assets/member-tech-bay.jpg";
+import bartenderCocktail from "./assets/bartender-cocktail.jpg";
 
 
 // ─── DESIGN TOKENS — "fairway green jacket" ──────────────────
@@ -172,7 +173,7 @@ const MENU_GROUPS = [
   ]},
 ];
 
-function ThemeToggle({ theme, toggleTheme, style = {} }) {
+function ThemeToggle({ theme, toggleTheme }) {
   const dark = theme === "dark";
   return (
     <button
@@ -180,20 +181,22 @@ function ThemeToggle({ theme, toggleTheme, style = {} }) {
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       title={dark ? "Switch to light mode" : "Switch to dark mode"}
       style={{
-        width: 44, height: 44, borderRadius: "50%", flexShrink: 0,
-        background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)",
+        position: "fixed", right: "max(20px, env(safe-area-inset-right))", bottom: "max(20px, env(safe-area-inset-bottom))",
+        zIndex: "var(--z-float)", width: 46, height: 46, borderRadius: "50%", flexShrink: 0,
+        background: C.surface, border: `1px solid ${C.grayLight}`, boxShadow: "0 6px 20px rgba(0,0,0,0.16)",
+        backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
         display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
-        color: C.brass, transition: "background 0.2s, transform 0.2s", ...style
+        color: C.gray, transition: "color 0.2s, border-color 0.2s, transform 0.2s"
       }}
-      onMouseEnter={e => { e.currentTarget.style.background = "rgba(211,163,93,0.18)"; }}
-      onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.06)"; }}
+      onMouseEnter={e => { e.currentTarget.style.color = C.green; e.currentTarget.style.borderColor = C.green; e.currentTarget.style.transform = "translateY(-2px)"; }}
+      onMouseLeave={e => { e.currentTarget.style.color = C.gray; e.currentTarget.style.borderColor = C.grayLight; e.currentTarget.style.transform = "translateY(0)"; }}
     >
-      <Icon name={dark ? "sun" : "moon"} size={20} stroke={1.7} />
+      <Icon name={dark ? "sun" : "moon"} size={19} stroke={1.7} />
     </button>
   );
 }
 
-function Navbar({ page, setPage, theme, toggleTheme }) {
+function Navbar({ page, setPage }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -261,7 +264,6 @@ function Navbar({ page, setPage, theme, toggleTheme }) {
 
           {/* Contextual Layout Actions */}
           <div className="tj-desk-nav" style={{ flexShrink: 0, display: "flex", alignItems: "center", gap: 12 }}>
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             <Btn href={LINKS.bookBay} size="sm">Book A Bay</Btn>
           </div>
 
@@ -304,16 +306,7 @@ function Navbar({ page, setPage, theme, toggleTheme }) {
                 ))}
               </div>
             ))}
-            <div style={{
-              marginTop: 22, borderTop: "1px solid rgba(255,255,255,0.08)",
-              display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 12px 0"
-            }}>
-              <span style={{ fontSize: 15, fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, color: "rgba(247,251,248,0.92)" }}>
-                {theme === "dark" ? "Dark Mode" : "Light Mode"}
-              </span>
-              <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-            </div>
-            <div style={{ marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+            <div style={{ marginTop: 22, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
               <Btn href={LINKS.bookBay} size="lg" full>Book A Bay Now</Btn>
             </div>
           </div>
@@ -611,6 +604,39 @@ function ImageCards({ setPage }) {
   );
 }
 
+// ─── EVENTS TEASER (Private Parties + Corporate Events) ───────
+function EventsTeaser({ setPage }) {
+  return (
+    <section style={{ background: C.greenWash, padding: "128px 24px" }}>
+      <div className="responsive-grid responsive-grid-half" style={{ maxWidth: 1280, margin: "0 auto", gap: 64, alignItems: "center" }}>
+        <Reveal zoom style={{
+          borderRadius: 28, overflow: "hidden", aspectRatio: "4 / 3",
+          boxShadow: "0 24px 60px rgba(7,34,18,0.16)"
+        }}>
+          <img
+            src={bartenderCocktail}
+            alt="A bartender at The Jacket mixing a cocktail in front of the neon Green Jacket sign"
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        </Reveal>
+
+        <Reveal delay={120}>
+          <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(34px, 5.5vw, 58px)", lineHeight: 1.1, letterSpacing: "-0.02em", marginBottom: 24 }}>
+            Elevate your next <span style={{ color: C.green }}>private event or party.</span>
+          </h2>
+          <p style={{ fontSize: 16, color: C.gray, lineHeight: 1.75, marginBottom: 36, maxWidth: 480 }}>
+            The Jacket offers an unparalleled private party experience, combining the excitement of golf with the convenience of indoor entertainment to create a memorable, tailored event that caters to your needs and preferences.
+          </p>
+          <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <Btn size="lg" onClick={() => { setPage("private-parties"); window.scrollTo(0, 0); }}>Private Parties</Btn>
+            <Btn variant="outlineD" size="lg" onClick={() => { setPage("corporate-events"); window.scrollTo(0, 0); }}>Corporate Events</Btn>
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
 // ─── MEMBER SECTION ──────────────────────────────────────────
 function MemberSection({ setPage }) {
   const perks = [
@@ -804,7 +830,7 @@ function PageHero({ title, titleGreen, subtitle, cta1, cta2 }) {
   return (
     <section style={{
       background: `linear-gradient(135deg, ${C.dark} 0%, ${C.darkMid} 100%)`,
-      padding: "160px 24px 80px", position: "relative", overflow: "hidden"
+      padding: "clamp(148px, 22vw, 192px) 24px clamp(64px, 8vw, 96px)", position: "relative", overflow: "hidden"
     }}>
       <div style={{
         position: "absolute", inset: 0, opacity: 0.06,
@@ -861,6 +887,7 @@ function HomePage({ setPage }) {
       <Hero setPage={setPage} />
       <EnjoyGolf setPage={setPage} />
       <ImageCards setPage={setPage} />
+      <EventsTeaser setPage={setPage} />
       <MemberSection setPage={setPage} />
       <Reviews />
       <FAQBlock />
@@ -1282,11 +1309,12 @@ export default function App() {
 
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      <Navbar page={page} setPage={setPage} theme={theme} toggleTheme={toggleTheme} />
+      <Navbar page={page} setPage={setPage} />
       <div style={{ flex: "1 0 auto" }}>
         {pages[page] || pages.home}
       </div>
       <Footer setPage={setPage} />
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
     </div>
   );
 }

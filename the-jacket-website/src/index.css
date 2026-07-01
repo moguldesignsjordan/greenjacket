@@ -40,6 +40,7 @@
   --z-sticky: 100;
   --z-banner: 1001;
   --z-nav: 1000;
+  --z-float: 1050;
   --z-modal: 1100;
   --z-toast: 1200;
 }

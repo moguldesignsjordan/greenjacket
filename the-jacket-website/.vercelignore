@@ -1,0 +1,15 @@
+# Vercel builds fresh on its own machine; no need to upload these.
+node_modules
+dist
+dist-ssr
+*.local
+
+# Large media files — host on a CDN/blob store and reference by URL instead.
+# (See .gitignore: these were never meant to ship in the deploy bundle.)
+*.mp4
+*.mov
+*.avi
+
+.DS_Store
+.vscode
+.idea

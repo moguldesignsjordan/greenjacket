@@ -265,9 +265,8 @@ function Navbar({ page, setPage, theme, toggleTheme }) {
             <Btn href={LINKS.bookBay} size="sm">Book A Bay</Btn>
           </div>
 
-          {/* Mobile actions: theme toggle + menu trigger */}
+          {/* Mobile action: menu trigger */}
           <div className="tj-mob-btn" style={{ display: "none", alignItems: "center", gap: 10 }}>
-            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
             <div onClick={() => setMenuOpen(!menuOpen)}
               style={{
                 width: 44, height: 44, borderRadius: "50%", background: "rgba(255,255,255,0.06)",
@@ -305,7 +304,16 @@ function Navbar({ page, setPage, theme, toggleTheme }) {
                 ))}
               </div>
             ))}
-            <div style={{ marginTop: 24, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+            <div style={{
+              marginTop: 22, borderTop: "1px solid rgba(255,255,255,0.08)",
+              display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 12px 0"
+            }}>
+              <span style={{ fontSize: 15, fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, color: "rgba(247,251,248,0.92)" }}>
+                {theme === "dark" ? "Dark Mode" : "Light Mode"}
+              </span>
+              <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+            </div>
+            <div style={{ marginTop: 20, paddingTop: 20, borderTop: "1px solid rgba(255,255,255,0.08)" }}>
               <Btn href={LINKS.bookBay} size="lg" full>Book A Bay Now</Btn>
             </div>
           </div>
@@ -325,7 +333,7 @@ function Footer({ setPage }) {
 
   return (
     <>
-      {/* Main Structural Nav Floor */}
+      {/* Footer */}
       <footer style={{ background: "#072212", borderTop: "1px solid rgba(255,255,255,0.08)", padding: "64px 24px 32px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
 
@@ -461,13 +469,13 @@ function Hero({ setPage }) {
 
       <div style={{ position: "relative", zIndex: 1, maxWidth: 1280, margin: "0 auto", width: "100%" }}>
         <h1 className="fade-up" style={{
-          fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 600, fontSize: "clamp(34px, 5.5vw, 64px)",
-          color: C.white, lineHeight: 1.18, letterSpacing: "-0.02em", maxWidth: 850, marginBottom: 32,
+          fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 600, fontSize: "clamp(42px, 9vw, 64px)",
+          color: C.white, lineHeight: 1.15, letterSpacing: "-0.02em", maxWidth: 850, marginBottom: 32,
         }}>
           Indoor Golf<br />Reimagined For<br />
           <span className={cls} style={{ color: C.greenAccent, fontWeight: 700, display: "inline-block", position: "relative", lineHeight: 1.3, paddingBottom: "0.12em" }}>{ROTATING_WORDS[idx]}</span>
         </h1>
-        <p className="fade-up-1" style={{ fontSize: "clamp(15px, 2vw, 17px)", color: "rgba(247,251,248,0.78)", maxWidth: 560, lineHeight: 1.7, marginBottom: 48 }}>
+        <p className="fade-up-1" style={{ fontSize: "clamp(16px, 2vw, 17px)", color: "rgba(247,251,248,0.78)", maxWidth: 560, lineHeight: 1.7, marginBottom: 48 }}>
           Play a quick 9 holes on your lunch break or take the whole family out for a unique indoor golf experience, rain or shine.
         </p>
         <div className="fade-up-2" style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -803,12 +811,12 @@ function PageHero({ title, titleGreen, subtitle, cta1, cta2 }) {
         backgroundImage: "radial-gradient(rgba(211,163,93,0.6) 1px, transparent 1px)", backgroundSize: "24px 24px"
       }} />
       <div style={{ maxWidth: 840, margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
-        <h1 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 5.5vw, 60px)", color: C.white, lineHeight: 1.15, marginBottom: 20 }}>
+        <h1 className="fade-up" style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 5.5vw, 60px)", color: C.white, lineHeight: 1.15, marginBottom: 20, letterSpacing: "-0.015em" }}>
           {title}{titleGreen && <> <span style={{ color: C.greenAccent }}>{titleGreen}</span></>}
         </h1>
-        {subtitle && <p style={{ fontSize: 16, color: "rgba(247,251,248,0.75)", maxWidth: 600, margin: "0 auto 36px", lineHeight: 1.7 }}>{subtitle}</p>}
+        {subtitle && <p className="fade-up-1" style={{ fontSize: 16, color: "rgba(247,251,248,0.75)", maxWidth: 600, margin: "0 auto 36px", lineHeight: 1.7 }}>{subtitle}</p>}
         {(cta1 || cta2) && (
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>{cta1}{cta2}</div>
+          <div className="fade-up-2" style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>{cta1}{cta2}</div>
         )}
       </div>
     </section>
@@ -822,27 +830,27 @@ function Sec({ children, bg = C.surface, pad = "80px 24px" }) {
 
 function SecTitle({ title, green, sub, center = true }) {
   return (
-    <div style={{ textAlign: center ? "center" : "left", marginBottom: 48, padding: "0 8px" }}>
-      <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(26px, 3.5vw, 42px)", lineHeight: 1.2 }}>
+    <Reveal as="div" style={{ textAlign: center ? "center" : "left", marginBottom: 48, padding: "0 8px" }}>
+      <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(26px, 3.5vw, 42px)", lineHeight: 1.2, letterSpacing: "-0.015em" }}>
         {title}{green && <> <span style={{ color: C.green }}>{green}</span></>}
       </h2>
       {sub && <p style={{ fontSize: 15, color: C.gray, maxWidth: 600, margin: center ? "16px auto 0" : "12px 0 0", lineHeight: 1.65 }}>{sub}</p>}
-    </div>
+    </Reveal>
   );
 }
 
-function Card({ title, desc }) {
+function Card({ title, desc, delay = 0 }) {
   return (
-    <div style={{
+    <Reveal delay={delay} className="card-hover-lift" style={{
       background: C.surface, borderRadius: 20, padding: "32px 24px", border: `1px solid ${C.grayLight}`,
-      boxShadow: "0 4px 20px rgba(0,0,0,0.02)", transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)"
+      boxShadow: "0 4px 20px rgba(0,0,0,0.02)"
     }}
       onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-4px)"; e.currentTarget.style.borderColor = C.green; e.currentTarget.style.boxShadow = "0 12px 30px rgba(21,132,69,0.1)"; }}
       onMouseLeave={e => { e.currentTarget.style.transform = ""; e.currentTarget.style.borderColor = C.grayLight; e.currentTarget.style.boxShadow = "0 4px 20px rgba(0,0,0,0.02)"; }}
     >
       <h4 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 18, marginBottom: 10, color: C.black }}>{title}</h4>
       <p style={{ fontSize: 14, color: C.gray, lineHeight: 1.6 }}>{desc}</p>
-    </div>
+    </Reveal>
   );
 }
 
@@ -879,20 +887,20 @@ function MembershipsPage() {
 
   return (
     <>
-      <PageHero label="Membership" title="Membership That" titleGreen="Pays For Itself" subtitle="Daily simulator time, 20% off across the board, and perks built for however often you play."
+      <PageHero title="Membership That" titleGreen="Pays For Itself" subtitle="Daily simulator time, 20% off across the board, and perks built for however often you play."
         cta1={<Btn href={LINKS.memberStandard} size="lg">Join Standard</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.memberSocial}>View Social Plan</Btn>}
       />
       <Sec>
-        <SecTitle label="Member Perks" title="Why Members Love" green="The Jacket" />
+        <SecTitle title="Why Members Love" green="The Jacket" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-3" style={{ marginBottom: 80 }}>
-          {[{ t: "90 Minutes Daily", d: "Use your included simulator time any weekday between 10 AM and 6 PM." }, { t: "Bring A Guest", d: "Invite friends, family, or coworkers to play alongside you." }, { t: "Happy Hour, Always", d: "Happy hour food and drink prices apply every time you visit." }, { t: "20% Off Across The Board", d: "Save on lessons, private events, club fittings, and more." }, { t: "Free Club Rentals", d: "Play with our latest Srixon and Cleveland rental sets at no extra cost." }, { t: "Free Swing Evaluation", d: "Get a Trackman swing analysis from one of our coaches." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "90 Minutes Daily", d: "Use your included simulator time any weekday between 10 AM and 6 PM." }, { t: "Bring A Guest", d: "Invite friends, family, or coworkers to play alongside you." }, { t: "Happy Hour, Always", d: "Happy hour food and drink prices apply every time you visit." }, { t: "20% Off Across The Board", d: "Save on lessons, private events, club fittings, and more." }, { t: "Free Club Rentals", d: "Play with our latest Srixon and Cleveland rental sets at no extra cost." }, { t: "Free Swing Evaluation", d: "Get a Trackman swing analysis from one of our coaches." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={(i % 3) * 70} />)}
         </div>
 
-        <SecTitle label="Pricing" title="Find Your Plan" />
+        <SecTitle title="Find Your Plan" />
         <div className="responsive-grid responsive-grid-3" style={{ alignItems: "start", gap: 32 }}>
           {tiers.map((t, i) => (
-            <div key={i} style={{
+            <Reveal key={i} delay={i * 90} style={{
               borderRadius: 24, padding: "44px 32px", position: "relative",
               background: t.highlight ? C.dark : C.white,
               border: t.highlight ? `2px solid ${C.green}` : `1px solid ${C.grayLight}`,
@@ -913,7 +921,7 @@ function MembershipsPage() {
                 ))}
               </div>
               <Btn href={t.link} full variant={t.highlight ? "green" : "dark"} size="md">Join Now</Btn>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Sec>
@@ -925,20 +933,20 @@ function MembershipsPage() {
 function LessonsPage() {
   return (
     <>
-      <PageHero label="Lessons & Coaching" title="Better Golf Starts" titleGreen="With The Right Coach"
+      <PageHero title="Better Golf Starts" titleGreen="With The Right Coach"
         subtitle="Work one-on-one with a certified coach using real Trackman data to fix what's holding your swing back."
         cta1={<Btn href={LINKS.lessons} size="lg">Book A Lesson</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.memberStandard}>View Membership Plans</Btn>}
       />
       <Sec>
-        <SecTitle label="Lesson Packages" title="Find Your Program" sub="Whether you're just starting out or chasing single digits, regular coaching backed by real data makes the difference." />
+        <SecTitle title="Find Your Program" sub="Whether you're just starting out or chasing single digits, regular coaching backed by real data makes the difference." />
         <div className="responsive-grid responsive-grid-3" style={{ marginBottom: 64 }}>
           {[
             { name: "Swing Evaluation", price: "$49.99", note: "Free for members", desc: "A full Trackman breakdown of your swing, with a coach walking you through what's working and what's not." },
             { name: "Private 1-on-1 Lesson", price: "$149.99", note: "60-minute session", desc: "Focused, one-on-one coaching built around your goals, your swing, and your game." },
             { name: "Junior Lessons", price: "$119.99", note: "Ages 6–17", desc: "Build solid fundamentals early with coaching designed for young golfers." },
           ].map((l, i) => (
-            <div key={i} style={{
+            <Reveal key={i} delay={i * 80} style={{
               background: C.surface, borderRadius: 24, padding: "44px 32px", textAlign: "center",
               border: `1px solid ${C.grayLight}`, boxShadow: "0 4px 20px rgba(0,0,0,0.02)"
             }}
@@ -948,11 +956,11 @@ function LessonsPage() {
               <p style={{ fontSize: 34, fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, color: C.green, marginBottom: 20 }}>{l.price}</p>
               <p style={{ fontSize: 14, color: C.gray, lineHeight: 1.6, marginBottom: 32 }}>{l.desc}</p>
               <Btn href={LINKS.lessons} variant="dark" full>Book This Lesson</Btn>
-            </div>
+            </Reveal>
           ))}
         </div>
         <div className="responsive-grid responsive-grid-3">
-          {[{ t: "Fix Your Downswing", d: "Spot and correct the small flaws in your downswing using slow-motion video and Trackman data." }, { t: "Smarter Course Management", d: "Learn to read a course, manage risk, and make better decisions on every shot." }, { t: "Mental Game Coaching", d: "Build pre-shot routines and focus habits that hold up under pressure." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Fix Your Downswing", d: "Spot and correct the small flaws in your downswing using slow-motion video and Trackman data." }, { t: "Smarter Course Management", d: "Learn to read a course, manage risk, and make better decisions on every shot." }, { t: "Mental Game Coaching", d: "Build pre-shot routines and focus habits that hold up under pressure." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={i * 70} />)}
         </div>
       </Sec>
     </>
@@ -963,12 +971,12 @@ function LessonsPage() {
 function WaysToPlayPage() {
   return (
     <>
-      <PageHero label="Ways To Play" title="More Than Just" titleGreen="18 Holes"
+      <PageHero title="More Than Just" titleGreen="18 Holes"
         subtitle="Play 250+ courses with pinpoint Trackman accuracy, or switch it up with target games, long-drive challenges, and more."
         cta1={<Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>}
       />
       <Sec>
-        <SecTitle label="Game Modes" title="Mix Up Your Round" />
+        <SecTitle title="Mix Up Your Round" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-3" style={{ marginBottom: 64 }}>
           {[
             { t: "Target Tracker", d: "Test your accuracy by landing shots as close as possible to the target." },
@@ -977,15 +985,15 @@ function WaysToPlayPage() {
             { t: "Closest To The Pin", d: "Take on par-3 challenges with changing wind and weather conditions." },
             { t: "Flag Hunt", d: "A short-game challenge that mixes accuracy with friendly competition." },
             { t: "Magic Pond", d: "A playful target game that's perfect for kids and first-timers." },
-          ].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          ].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={(i % 3) * 70} />)}
         </div>
 
-        <SecTitle label="Online Play" title="Play Bay-To-Bay, Or Around The World" sub="Connect with other bays in our lounge, or jump online to play golfers from anywhere." />
-        <div style={{ textAlign: "center", marginBottom: 80 }}><Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn></div>
+        <SecTitle title="Play Bay-To-Bay, Or Around The World" sub="Connect with other bays in our lounge, or jump online to play golfers from anywhere." />
+        <Reveal as="div" style={{ textAlign: "center", marginBottom: 80 }}><Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn></Reveal>
 
-        <SecTitle label="Tournament Formats" title="Classic Ways To Compete" />
+        <SecTitle title="Classic Ways To Compete" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-4">
-          {[{ t: "Stroke Play", d: "Every shot counts. Lowest total score wins." }, { t: "Alternate Shot", d: "Partners take turns hitting the same ball. Teamwork is everything." }, { t: "Scramble", d: "Everyone tees off, the team picks the best shot, and plays from there." }, { t: "Pitch & Putt", d: "Focus on your short game with formats built around wedges and putters." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Stroke Play", d: "Every shot counts. Lowest total score wins." }, { t: "Alternate Shot", d: "Partners take turns hitting the same ball. Teamwork is everything." }, { t: "Scramble", d: "Everyone tees off, the team picks the best shot, and plays from there." }, { t: "Pitch & Putt", d: "Focus on your short game with formats built around wedges and putters." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={i * 70} />)}
         </div>
       </Sec>
     </>
@@ -996,26 +1004,27 @@ function WaysToPlayPage() {
 function EventsPage({ setPage }) {
   return (
     <>
-      <PageHero label="Social Gathering Frameworks" title="Assembled Experiences Tailored" green="For Any Group Setup"
-        subtitle="From highly structured corporate mixers to low-stress social operations, our spaces configure dynamically to meet group constraints."
-        cta1={<Btn variant="outline" size="lg" href={LINKS.bookBay}>Review Live Openings</Btn>}
+      <PageHero title="Events & Parties" titleGreen="Built Around You"
+        subtitle="From birthday parties to corporate outings, we'll set up the space, the games, and the food so all you have to do is show up."
+        cta1={<Btn variant="outline" size="lg" href={LINKS.bookBay}>Check Availability</Btn>}
       />
       <Sec>
-        <SecTitle label="Configurable Layout Schematics" title="Select Event Environment Type" />
+        <SecTitle title="Pick Your Event Type" />
         <div className="responsive-grid responsive-grid-3">
           {[
-            { t: "Private Social Parties", d: "Unify responsive spatial entertainment with high-end hospitality features for memorable personal milestones.", page: "private-parties" },
-            { t: "Corporate Outing Modules", d: "Deploy streamlined team-building games alongside dedicated high-contrast workspace settings.", page: "corporate-events" },
-            { t: "Custom Tournament Series", d: "Run complex individual or multi-team competitive formats supported by digital tracking structures.", page: "home" },
+            { t: "Private Parties", d: "Celebrate birthdays, anniversaries, or just because, with bays and a private space just for your group.", page: "private-parties" },
+            { t: "Corporate Events", d: "Team outings, happy hours, and offsites that double as a great time and a great deal.", page: "corporate-events" },
+            { t: "Tournaments", d: "Run your own bracket or join an upcoming one, with live leaderboards and prizes on the line.", page: "leagues" },
           ].map((c, i) => (
-            <div key={i} style={{ background: C.dark, borderRadius: 24, padding: "44px 32px", cursor: "pointer", transition: "all 0.3s ease", border: "2px solid transparent" }}
+            <Reveal key={i} delay={i * 90} style={{ background: C.dark, borderRadius: 24, padding: "44px 32px", cursor: "pointer", border: "2px solid transparent" }}
+              className="card-hover-lift"
               onClick={() => { setPage(c.page); window.scrollTo(0, 0); }}
               onMouseEnter={e => { e.currentTarget.style.borderColor = C.green; e.currentTarget.style.transform = "translateY(-4px)"; }}
               onMouseLeave={e => { e.currentTarget.style.borderColor = "transparent"; e.currentTarget.style.transform = ""; }}
             >
               <h4 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 22, color: C.white, marginBottom: 12 }}>{c.t}</h4>
               <p style={{ fontSize: 14, color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>{c.d}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </Sec>
@@ -1027,25 +1036,26 @@ function EventsPage({ setPage }) {
 function LeaguesPage() {
   return (
     <>
-      <PageHero label="Tournament Infrastructure" title="Continuous Regional Leagues" green="Across Seasons"
-        subtitle="Maintain sharp kinetic baselines year-round while embedding directly into local developer and enthusiast circles."
-        cta1={<Btn href={LINKS.bookBay} size="lg">Register Profile</Btn>}
+      <PageHero title="Leagues That Run" titleGreen="All Year"
+        subtitle="Join a season, climb the leaderboard, and play with the same group week after week, no pressure, just good golf."
+        cta1={<Btn href={LINKS.bookBay} size="lg">Join A League</Btn>}
       />
       <Sec>
-        <SecTitle label="Systemic Benefits" title="Why Play In Structured Leagues?" />
+        <SecTitle title="Why Join A League" />
         <div className="responsive-grid responsive-grid-2 responsive-grid-3" style={{ marginBottom: 64 }}>
-          {[{ t: "Adaptive Tracking Ladders", d: "Experience fair, dynamic grouping logic that balances brackets around verified handicap outputs." }, { t: "Predictable Routing Schedules", d: "Plan around reliable match windows designed to respect business or corporate schedules easily." }, { t: "Continuous Skill Benchmarking", d: "Evaluate execution metrics under competitive pressure states to accelerate technical breakthroughs." }, { t: "Network Integration", d: "Connect with regional professionals and community members who share high-level design and play values." }, { t: "Hosted Mixer Finales", d: "Celebrate tournament completions during customized social gatherings with catering and live metrics boards." }, { t: "Climate-Controlled Safety", d: "Eliminate weather anomalies completely from long-term tracking profiles inside safe indoor settings." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Fair Matchups", d: "Brackets are balanced by handicap, so every match is close no matter your skill level." }, { t: "Schedules That Work", d: "Set match windows that fit around work and family, no last-minute scrambling." }, { t: "Track Your Progress", d: "See your stats improve week over week and measure yourself against the field." }, { t: "Meet Other Golfers", d: "Get to know other local players and coaches who share your love of the game." }, { t: "End-Of-Season Parties", d: "Wrap up every season with a celebration, food, drinks, and prizes for the top finishers." }, { t: "Always Climate-Controlled", d: "Rain, heat, or freezing cold outside, league night happens rain or shine, indoors." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={(i % 3) * 70} />)}
         </div>
 
-        <div style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
-          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>League Options</h3>
+        <Reveal as="div" style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
+          <img src={leagueTeamPhoto} alt="The Jacket league players and team posing together outside the venue" style={{ width: "100%", maxWidth: 560, borderRadius: 16, marginBottom: 32, display: "block", marginLeft: "auto", marginRight: "auto" }} />
+          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>Pick Your League</h3>
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginBottom: 40 }}>
-            {["Men's Championship Division", "Women's Elite Bracket", "Jack & Jill Social Pairings", "Advanced Telemetry Skills League"].map(l => (
+            {["Men's Championship Division", "Women's Elite Bracket", "Jack & Jill Social Pairings", "Skills League For Beginners"].map(l => (
               <span key={l} style={{ padding: "10px 20px", borderRadius: 999, border: `1px solid rgba(44,198,76,0.3)`, fontSize: 13, color: "rgba(255,255,255,0.84)", fontWeight: 500, background: "rgba(255,255,255,0.02)" }}>{l}</span>
             ))}
           </div>
-          <Btn href={LINKS.bookBay} size="lg">Initialize Roster Spot</Btn>
-        </div>
+          <Btn href={LINKS.bookBay} size="lg">Reserve Your Spot</Btn>
+        </Reveal>
       </Sec>
     </>
   );
@@ -1055,23 +1065,23 @@ function LeaguesPage() {
 function PrivatePartiesPage() {
   return (
     <>
-      <PageHero label="Exclusive Allocations" title="Premium Social Milestone" green="Celebration Modules"
-        subtitle="Host high-end personal celebrations inside dedicated, sound-insulated simulation lounges designed for relaxation."
-        cta1={<Btn href={LINKS.bookBay} size="lg">Lock Spatial Date</Btn>}
+      <PageHero title="Private Parties," titleGreen="Done Right"
+        subtitle="Book a private space for birthdays, anniversaries, or any reason to celebrate, just your group, the bays, and the bar."
+        cta1={<Btn href={LINKS.bookBay} size="lg">Check Availability</Btn>}
       />
       <Sec>
-        <SecTitle label="VIP Frameworks" title="Elevate Standard Social Gatherings" />
+        <SecTitle title="What's Included" />
         <div className="responsive-grid responsive-grid-3" style={{ marginBottom: 64 }}>
-          {[{ t: "Absolute Weather Insulated", d: "Guarantee consistent, uncompromised group execution metrics across any extreme environmental shifts outside." }, { t: "Granular Room Control", d: "Configure unique aesthetic presets, media playback streams, and seating parameters tailored to your target circle." }, { t: "Relaxed Communication Layouts", d: "Fluid architecture zones allowing guests to converse comfortably without breaking engagement from active gameplay spaces." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Rain Or Shine", d: "Your party stays exactly on schedule no matter what's happening outside." }, { t: "Set The Vibe", d: "Pick the music, the screens, and the seating layout to match your group." }, { t: "Easy To Mingle", d: "An open layout lets guests chat and relax without missing any of the action." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={i * 80} />)}
         </div>
 
-        <div style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
-          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>Private Suite Specs</h3>
+        <Reveal as="div" style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
+          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>Private Suites</h3>
           <p style={{ fontSize: 15, color: "rgba(255,255,255,0.7)", maxWidth: 540, margin: "0 auto 36px", lineHeight: 1.7 }}>
-            Each luxury suite comfortably handles up to 10 active profiles. Outfitted with high-speed computational backends and dedicated catering access configurations.
+            Each private suite comfortably fits up to 10 guests, with fast Wi-Fi and catering options available on request.
           </p>
-          <Btn href={LINKS.bookBay} size="lg">Deploy Group Booking</Btn>
-        </div>
+          <Btn href={LINKS.bookBay} size="lg">Book Your Suite</Btn>
+        </Reveal>
       </Sec>
     </>
   );
@@ -1081,15 +1091,15 @@ function PrivatePartiesPage() {
 function CorporateEventsPage() {
   return (
     <>
-      <PageHero label="Enterprise Functions" title="Drive Corporate Connection" green="With Dynamic Activity Models"
-        subtitle="Align organizational communication goals with high-morale group recreational mechanics inside specialized executive zones."
-        cta1={<Btn href={LINKS.bookBay} size="lg">Request Enterprise Proposal</Btn>}
+      <PageHero title="Corporate Events" titleGreen="Worth Showing Up For"
+        subtitle="Give your team a real break with team-building golf, great food, and a setting that's nothing like the office."
+        cta1={<Btn href={LINKS.bookBay} size="lg">Get A Quote</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.memberCorporate}>View Corporate Rates</Btn>}
       />
       <Sec>
-        <SecTitle label="Strategic Alignments" title="Why Modern Corporate Teams Outsource to Us" />
+        <SecTitle title="Why Companies Choose Us" />
         <div className="responsive-grid responsive-grid-3">
-          {[{ t: "Dedicated Event Architects", d: "Collaborate straight with platform operational managers to sync timeline scripts and culinary configurations precisely." }, { t: "High-Yield Team Synchronization", d: "Break down cross-department communication silos through accessible, gamified collaborative mechanics." }, { t: "Impeccable Business Contexts", d: "A polished, professional environment balancing reliable technology spaces with high-end customer relaxation setups." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "A Dedicated Planner", d: "Work directly with our team to plan the schedule, food, and setup down to the details." }, { t: "Real Team Building", d: "Friendly competition that gets people talking across departments, no awkward icebreakers required." }, { t: "A Polished Setting", d: "Modern bays and a relaxed lounge that still feels professional enough for client outings." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={i * 80} />)}
         </div>
       </Sec>
     </>
@@ -1099,45 +1109,45 @@ function CorporateEventsPage() {
 // ─── PAGE: CLUB FITTINGS ─────────────────────────────────────
 function ClubFittingsPage() {
   const fittings = [
-    ["Master System Bag", "Complete woods, irons, wedges, putter configuration", "$375", "2.5 hrs"],
-    ["Core Setup Matrix", "Complete bag metrics minus putting calibration tools", "$275", "2.5 hrs"],
-    ["Launch Optimization", "Isolate driver and wood launch path variables", "$275", "2 hrs"],
-    ["Iron & Wedge Gapping", "Map precise loft, bounce, and stepping arrays", "$225", "1 hr"],
-    ["Pure Iron Tracking", "Stabilize dispersion profiles via custom shafts", "$175", "1 hr"],
-    ["Driver Path Calibration", "Extract maximum potential ball speed off the tee face", "$175", "1 hr"],
-    ["Fairway & Hybrid Integration", "Secure reliable attack angles and spin ratios", "$175", "1 hr"],
-    ["Putter Alignment Diagnostics", "Verify true face orientation at critical impact states", "$150", "1 hr"],
-    ["Short-Game Wedge Profiling", "Establish predictable bounce behavior across turf conditions", "$125", "1 hr"],
+    ["Full Bag Fitting", "Woods, irons, wedges, and putter, dialed in from top to bottom", "$375", "2.5 hrs"],
+    ["Full Bag, No Putter", "Every club but the putter, fit to your exact swing", "$275", "2.5 hrs"],
+    ["Driver & Wood Fitting", "Find the launch and spin numbers that add real distance off the tee", "$275", "2 hrs"],
+    ["Iron & Wedge Fitting", "Get the lofts and gapping right across your full set", "$225", "1 hr"],
+    ["Iron Fitting", "Tighten up your shot pattern with the right shafts", "$175", "1 hr"],
+    ["Driver Fitting", "Maximize ball speed and distance off the tee", "$175", "1 hr"],
+    ["Fairway & Hybrid Fitting", "Dial in launch angle and spin for more consistent long shots", "$175", "1 hr"],
+    ["Putter Fitting", "Make sure your putter face is square at impact, every time", "$150", "1 hr"],
+    ["Wedge Fitting", "Find the bounce and grind that match how you play out of the turf", "$125", "1 hr"],
   ];
 
   return (
     <>
-      <PageHero label="Equipment Mechanics" title="Optimize Hardware Geometry" green="To Your Kinetic Blueprint"
-        subtitle="Eliminate gear variables entirely by engineering club properties directly around structural mechanics."
-        cta1={<Btn href={LINKS.clubFitting} size="lg">Reserve Fitting Session</Btn>}
+      <PageHero title="Find The Right Clubs" titleGreen="For Your Swing"
+        subtitle="Skip the guesswork. We use Trackman data to match your clubs to how you actually swing."
+        cta1={<Btn href={LINKS.clubFitting} size="lg">Book A Fitting</Btn>}
       />
       <Sec>
-        <SecTitle label="Precision Pricing Matrix" title="Equipment Calibration Options" />
+        <SecTitle title="Fitting Options" />
         <div className="responsive-grid responsive-grid-2" style={{ gap: 16, marginBottom: 56 }}>
           {fittings.map(([name, desc, price, time], i) => (
-            <div key={i} style={{
+            <Reveal key={i} delay={(i % 4) * 60} style={{
               display: "flex", justifyContent: "space-between", alignItems: "center",
-              padding: "20px 24px", background: C.surface, borderRadius: 16, border: `1px solid ${C.grayLight}`, gap: 16, transition: "all 0.2s"
+              padding: "20px 24px", background: C.surface, borderRadius: 16, border: `1px solid ${C.grayLight}`, gap: 16, transition: "border-color 0.2s, background 0.2s"
             }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = C.green; e.currentTarget.style.background = "#F4FBF6"; }}
-              onMouseLeave={e => { e.currentTarget.style.borderColor = C.grayLight; e.currentTarget.style.background = C.white; }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = C.green; e.currentTarget.style.background = C.greenWash; }}
+              onMouseLeave={e => { e.currentTarget.style.borderColor = C.grayLight; e.currentTarget.style.background = C.surface; }}
             >
               <div>
                 <p style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 15, marginBottom: 4, color: C.black }}>{name}</p>
                 <p style={{ fontSize: 13, color: C.gray }}>{desc} · <span style={{ fontWeight: 600 }}>{time}</span></p>
               </div>
               <span style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 20, color: C.green, flexShrink: 0 }}>{price}</span>
-            </div>
+            </Reveal>
           ))}
         </div>
-        <div style={{ textAlign: "center", marginBottom: 80 }}><Btn href={LINKS.clubFitting} size="lg">Book Master Fitting Session</Btn></div>
+        <Reveal as="div" style={{ textAlign: "center", marginBottom: 80 }}><Btn href={LINKS.clubFitting} size="lg">Book Master Fitting Session</Btn></Reveal>
         <div className="responsive-grid responsive-grid-3">
-          {[{ t: "Minimized Dispersion Patterns", d: "Proper shaft and face pairings guarantee consistent impact points even on off-center strikes." }, { t: "Maximized Force Multiplication", d: "Align launch angles and spin axis logic to convert raw clubhead speed into clean distance down the fairway." }, { t: "Ergonomic Swing Comfort", d: "Gear matched precisely to your natural physical leverage points helps prevent execution fatigue over time." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "More Consistent Strikes", d: "The right shaft and face combination means solid contact even when you miss the center." }, { t: "More Distance", d: "Dial in launch angle and spin to turn your swing speed into real yards." }, { t: "More Comfort", d: "Clubs built around your body and swing feel better and hold up better over a full round." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={i * 80} />)}
         </div>
       </Sec>
     </>
@@ -1148,23 +1158,24 @@ function ClubFittingsPage() {
 function TechnologyPage() {
   return (
     <>
-      <PageHero label="Telemetry Architectures" title="The High-Definition Tracking" green="Powerhouse: Trackman iO"
-        subtitle="Engineered exclusively to capture lightning-fast indoor mechanics using dual-radar infrared optical systems."
-        cta1={<Btn href={LINKS.bookBay} size="lg">Initialize Data Capture</Btn>}
+      <PageHero title="Meet Trackman" titleGreen="iO"
+        subtitle="The same tour-grade tracking technology the pros use, built into every bay."
+        cta1={<Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>}
       />
       <Sec>
-        <SecTitle label="Advanced Telemetry Metrics" title="Uncompromised Real-Time Tracking Vectors" />
+        <SecTitle title="What Makes It Different" />
         <div className="responsive-grid responsive-grid-3" style={{ marginBottom: 64 }}>
-          {[{ t: "Instant Spatial Detection", d: "Industry-leading instant validation triggers register the ball location the moment it touches the strike zone." }, { t: "Dynamic Clubhead Capture", d: "Tracks attack angle paths, accurate dynamic loft parameters, and face-to-path relationships down to micro-degrees." }, { t: "3D True Spin Measurement", d: "Calculates actual backspin, sidespin, and spin axis orientation without relying on speculative software approximations." }].map((f, i) => <Card key={i} icon={f.icon} title={f.t} desc={f.d} />)}
+          {[{ t: "Instant Ball Tracking", d: "Radar and camera tracking pick up your ball the moment it leaves the clubface." }, { t: "Full Clubhead Data", d: "See your attack angle, dynamic loft, and face-to-path on every single swing." }, { t: "True 3D Spin", d: "Real backspin, sidespin, and spin axis numbers, measured directly, not estimated." }].map((f, i) => <Card key={i} title={f.t} desc={f.d} delay={i * 80} />)}
         </div>
 
-        <div style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
-          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>Data Integrity Standards</h3>
+        <Reveal as="div" style={{ background: C.dark, borderRadius: 24, padding: "56px 32px", textAlign: "center" }}>
+          <img src={simulatorBaySwing} alt="A guest mid-swing on a Trackman iO simulator bay at The Jacket" style={{ width: "100%", maxWidth: 480, borderRadius: 16, marginBottom: 32, display: "block", marginLeft: "auto", marginRight: "auto", aspectRatio: "4 / 5", objectFit: "cover" }} />
+          <h3 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 28, color: C.white, marginBottom: 16 }}>Built For Accuracy</h3>
           <p style={{ fontSize: 15, color: "rgba(255,255,255,0.7)", maxWidth: 640, margin: "0 auto 36px", lineHeight: 1.7 }}>
-            By blending raw radar echoes with high-frequency optical imaging arrays, Trackman iO maintains a margin of error within 1.5 feet over a 300-yard flight simulation window.
+            By combining radar with high-speed cameras, Trackman iO stays accurate to within 1.5 feet over a 300-yard shot.
           </p>
-          <Btn href={LINKS.bookBay} size="lg">Test Your Numbers Now</Btn>
-        </div>
+          <Btn href={LINKS.bookBay} size="lg">See It For Yourself</Btn>
+        </Reveal>
       </Sec>
     </>
   );
@@ -1174,16 +1185,16 @@ function TechnologyPage() {
 function ContactPage() {
   return (
     <>
-      <PageHero label="Support Channels" title="Connect Directly With" green="Operations Personnel"
-        subtitle="Our staff handles spatial adjustments, group allocations, and custom corporate packages around the clock."
-        cta1={<Btn href={LINKS.bookBay} size="lg">Secure Simulation Bay</Btn>}
-        cta2={<Btn variant="outline" size="lg" href={LINKS.food}>View Lounge Menus</Btn>}
+      <PageHero title="Get In Touch" titleGreen="With The Jacket"
+        subtitle="Questions about booking, memberships, or a group event? Our team is happy to help."
+        cta1={<Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>}
+        cta2={<Btn variant="outline" size="lg" href={LINKS.food}>View Our Menu</Btn>}
       />
       <Sec>
         <div className="responsive-grid responsive-grid-half" style={{ gap: 64 }}>
-          <div>
-            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 32, marginBottom: 28 }}>Direct Communication Channels</h2>
-            {[{ label: "Operations Hot Line", val: "(682) 400-8055", href: "tel:6824008055" }, { label: "Geographic Space Coordinates", val: "2000 Matlock Rd, Ste 100, Mansfield, TX 76063", href: LINKS.directions }].map((c, i) => (
+          <Reveal>
+            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 32, marginBottom: 28 }}>Reach Us Directly</h2>
+            {[{ label: "Call Us", val: "(682) 400-8055", href: "tel:6824008055" }, { label: "Find Us", val: "2000 Matlock Rd, Ste 100, Mansfield, TX 76063", href: LINKS.directions }].map((c, i) => (
               <a key={i} href={c.href} target="_blank" rel="noopener noreferrer"
                 style={{ display: "flex", gap: 16, alignItems: "flex-start", padding: "20px 0", borderBottom: `1px solid ${C.grayLight}` }}>
                 <div>
@@ -1193,24 +1204,24 @@ function ContactPage() {
               </a>
             ))}
             <div style={{ marginTop: 40 }}>
-              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: C.green, marginBottom: 16 }}>Weekly Operating Matrices</p>
+              <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1.5, textTransform: "uppercase", color: C.green, marginBottom: 16 }}>Hours</p>
               {[["Monday – Thursday", "10:00 AM – 12:00 AM"], ["Friday – Saturday", "10:00 AM – 02:00 AM"], ["Sunday", "10:00 AM – 10:00 PM"]].map(([d, h]) => (
                 <div key={d} style={{ display: "flex", justifyContent: "space-between", padding: "14px 0", borderBottom: `1px solid ${C.grayLight}`, fontSize: 14 }}>
                   <span style={{ color: C.gray, fontWeight: 500 }}>{d}</span><span style={{ fontWeight: 600, color: C.black }}>{h}</span>
                 </div>
               ))}
             </div>
-          </div>
+          </Reveal>
 
-          <div>
-            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 32, marginBottom: 28 }}>Inquire Systematically</h2>
+          <Reveal delay={120}>
+            <h2 style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: 32, marginBottom: 28 }}>Send Us A Message</h2>
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              {["User Profile Name", "Active Contact Email", "Phone Validation Number"].map(f => (
+              {["Your Name", "Email Address", "Phone Number"].map(f => (
                 <div key={f}>
                   <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: C.gray, display: "block", marginBottom: 8 }}>{f}</label>
-                  <input type="text" placeholder={`Provide ${f.toLowerCase()}...`} style={{
+                  <input type="text" placeholder={`Your ${f.toLowerCase()}`} style={{
                     width: "100%", padding: "14px 16px", borderRadius: 12, border: `2px solid ${C.grayLight}`,
-                    fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+                    fontFamily: "'Public Sans', sans-serif", fontSize: 16, outline: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
                   }}
                     onFocus={e => e.target.style.borderColor = C.green}
                     onBlur={e => e.target.style.borderColor = C.grayLight}
@@ -1218,18 +1229,18 @@ function ContactPage() {
                 </div>
               ))}
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: C.gray, display: "block", marginBottom: 8 }}>Scope of Inquiry Message</label>
-                <textarea rows={4} placeholder="Detail requirements, specific date requests, or structural tier customizations..." style={{
+                <label style={{ fontSize: 11, fontWeight: 700, letterSpacing: 1, textTransform: "uppercase", color: C.gray, display: "block", marginBottom: 8 }}>Message</label>
+                <textarea rows={4} placeholder="Tell us about your event, group size, or what you'd like to know..." style={{
                   width: "100%", padding: "14px 16px", borderRadius: 12,
-                  border: `2px solid ${C.grayLight}`, fontFamily: "'Public Sans', sans-serif", fontSize: 14, outline: "none", resize: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
+                  border: `2px solid ${C.grayLight}`, fontFamily: "'Public Sans', sans-serif", fontSize: 16, outline: "none", resize: "none", transition: "border 0.2s cubic-bezier(0.16, 1, 0.3, 1)"
                 }}
                   onFocus={e => e.target.style.borderColor = C.green}
                   onBlur={e => e.target.style.borderColor = C.grayLight}
                 />
               </div>
-              <Btn full size="lg" style={{ marginTop: 8 }}>Dispatch Message Routing</Btn>
+              <Btn full size="lg" style={{ marginTop: 8 }}>Send Message</Btn>
             </div>
-          </div>
+          </Reveal>
         </div>
       </Sec>
     </>

@@ -143,6 +143,11 @@ button { cursor: pointer; border: none; background: none; font-family: inherit; 
    replaces the cascade, so both properties must be declared together here. */
 .hover-lift { transition: opacity 0.8s var(--ease-out-expo), transform 0.5s var(--ease-out-expo); }
 
+.card-hover-lift {
+  transition: opacity 0.8s var(--ease-out-expo), transform 0.3s var(--ease-out-expo),
+    border-color 0.3s var(--ease-out-expo), box-shadow 0.3s var(--ease-out-expo);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fade-up, .fade-up-1, .fade-up-2, .fade-up-3, .fade-up-4, .fade-up-item {
     animation: none;

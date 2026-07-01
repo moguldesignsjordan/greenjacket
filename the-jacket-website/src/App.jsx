@@ -456,7 +456,7 @@ function Hero({ setPage }) {
           zIndex: 0
         }}
       >
-        <source src="/video.mp4" type="video/mp4" />
+        <source src="https://m6ecrhz9ymkalaxg.public.blob.vercel-storage.com/video-C3wqwOPRrsEQ5HmT9bpeZ1Ro8JC9rE.mp4" type="video/mp4" />
       </video>
 
       {/* Dark overlay to ensure text legibility */}

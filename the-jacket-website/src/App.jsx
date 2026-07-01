@@ -454,9 +454,6 @@ function Footer({ setPage }) {
           {/* Brand column */}
           <div style={{ flex: "1 1 260px", maxWidth: 300, display: "flex", flexDirection: "column", gap: 20 }}>
             <Logo size={54} />
-            <p style={{ fontSize: 14, color: "rgba(247,251,248,0.62)", lineHeight: 1.7 }}>
-              Premium golf simulator bays and a laid-back neighborhood bar, all under one roof in Mansfield.
-            </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
               <a href={LINKS.directions} target="_blank" rel="noopener noreferrer"
                 style={{ display: "flex", gap: 10, alignItems: "flex-start", fontSize: 13.5, color: "rgba(247,251,248,0.75)", lineHeight: 1.5, transition: "color 0.2s" }}

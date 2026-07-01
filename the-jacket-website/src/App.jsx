@@ -6,6 +6,8 @@ import lessonClubFitting from "./assets/lesson-club-fitting.jpg";
 import leagueTeamPhoto from "./assets/league-team-photo.jpg";
 import memberTechBay from "./assets/member-tech-bay.jpg";
 import bartenderCocktail from "./assets/bartender-cocktail.jpg";
+import membershipLounge from "./assets/membership-lounge.jpg";
+import foodBurger from "./assets/food-burger.jpg";
 
 
 // ─── DESIGN TOKENS — "fairway green jacket" ──────────────────
@@ -45,7 +47,7 @@ const LINKS = {
 // ─── LOGO ────────────────────────────────────────────────────
 function Logo({ size = 52 }) {
   return (
-    <img src={logoImg} alt="The Jacket" width={size} height={size} style={{ objectFit: "contain", transition: "all 0.3s" }} />
+    <img src={logoImg} alt="The Jacket" height={size} style={{ width: "auto", objectFit: "contain", transition: "all 0.3s" }} />
   );
 }
 
@@ -826,18 +828,24 @@ function FAQBlock({ faqs = FAQS }) {
 }
 
 // ─── REUSABLE PAGE HERO ──────────────────────────────────────
-function PageHero({ title, titleGreen, subtitle, cta1, cta2 }) {
+function PageHero({ title, titleGreen, subtitle, cta1, cta2, image, imageAlt = "" }) {
   return (
     <section style={{
       background: `linear-gradient(135deg, ${C.dark} 0%, ${C.darkMid} 100%)`,
       padding: "clamp(148px, 22vw, 192px) 24px clamp(64px, 8vw, 96px)", position: "relative", overflow: "hidden"
     }}>
+      {image && (
+        <>
+          <img src={image} alt={imageAlt} aria-hidden={!imageAlt} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
+          <div style={{ position: "absolute", inset: 0, zIndex: 0, background: "linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.78) 100%)" }} />
+        </>
+      )}
       <div style={{
         position: "absolute", inset: 0, opacity: 0.06,
         backgroundImage: "radial-gradient(rgba(211,163,93,0.6) 1px, transparent 1px)", backgroundSize: "24px 24px"
       }} />
       <div style={{ maxWidth: 840, margin: "0 auto", position: "relative", zIndex: 1, textAlign: "center" }}>
-        <h1 className="fade-up" style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(32px, 5.5vw, 60px)", color: C.white, lineHeight: 1.15, marginBottom: 20, letterSpacing: "-0.015em" }}>
+        <h1 className="fade-up" style={{ fontFamily: "'Familjen Grotesk', sans-serif", fontWeight: 700, fontSize: "clamp(38px, 8vw, 60px)", color: C.white, lineHeight: 1.15, marginBottom: 20, letterSpacing: "-0.015em" }}>
           {title}{titleGreen && <> <span style={{ color: C.greenAccent }}>{titleGreen}</span></>}
         </h1>
         {subtitle && <p className="fade-up-1" style={{ fontSize: 16, color: "rgba(247,251,248,0.75)", maxWidth: 600, margin: "0 auto 36px", lineHeight: 1.7 }}>{subtitle}</p>}
@@ -915,6 +923,7 @@ function MembershipsPage() {
   return (
     <>
       <PageHero title="Membership That" titleGreen="Pays For Itself" subtitle="Daily simulator time, 20% off across the board, and perks built for however often you play."
+        image={membershipLounge} imageAlt="The lounge and bar seating area at The Jacket"
         cta1={<Btn href={LINKS.memberStandard} size="lg">Join Standard</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.memberSocial}>View Social Plan</Btn>}
       />
@@ -962,6 +971,7 @@ function LessonsPage() {
     <>
       <PageHero title="Better Golf Starts" titleGreen="With The Right Coach"
         subtitle="Work one-on-one with a certified coach using real Trackman data to fix what's holding your swing back."
+        image={lessonClubFitting} imageAlt="A coach at The Jacket guiding a student's swing on a Trackman simulator bay"
         cta1={<Btn href={LINKS.lessons} size="lg">Book A Lesson</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.memberStandard}>View Membership Plans</Btn>}
       />
@@ -1000,6 +1010,7 @@ function WaysToPlayPage() {
     <>
       <PageHero title="More Than Just" titleGreen="18 Holes"
         subtitle="Play 250+ courses with pinpoint Trackman accuracy, or switch it up with target games, long-drive challenges, and more."
+        image={simulatorBaySwing} imageAlt="A guest mid-swing on a Trackman iO simulator bay at The Jacket"
         cta1={<Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>}
       />
       <Sec>
@@ -1033,6 +1044,7 @@ function EventsPage({ setPage }) {
     <>
       <PageHero title="Events & Parties" titleGreen="Built Around You"
         subtitle="From birthday parties to corporate outings, we'll set up the space, the games, and the food so all you have to do is show up."
+        image={bartenderCocktail} imageAlt="A bartender at The Jacket mixing a cocktail in front of the neon Green Jacket sign"
         cta1={<Btn variant="outline" size="lg" href={LINKS.bookBay}>Check Availability</Btn>}
       />
       <Sec>
@@ -1065,6 +1077,7 @@ function LeaguesPage() {
     <>
       <PageHero title="Leagues That Run" titleGreen="All Year"
         subtitle="Join a season, climb the leaderboard, and play with the same group week after week, no pressure, just good golf."
+        image={simulatorBayLounge} imageAlt="The simulator bay lounge at The Jacket"
         cta1={<Btn href={LINKS.bookBay} size="lg">Join A League</Btn>}
       />
       <Sec>
@@ -1094,6 +1107,7 @@ function PrivatePartiesPage() {
     <>
       <PageHero title="Private Parties," titleGreen="Done Right"
         subtitle="Book a private space for birthdays, anniversaries, or any reason to celebrate, just your group, the bays, and the bar."
+        image={bartenderCocktail} imageAlt="A bartender at The Jacket mixing a cocktail in front of the neon Green Jacket sign"
         cta1={<Btn href={LINKS.bookBay} size="lg">Check Availability</Btn>}
       />
       <Sec>
@@ -1120,6 +1134,7 @@ function CorporateEventsPage() {
     <>
       <PageHero title="Corporate Events" titleGreen="Worth Showing Up For"
         subtitle="Give your team a real break with team-building golf, great food, and a setting that's nothing like the office."
+        image={simulatorBayLounge} imageAlt="The simulator bay lounge at The Jacket"
         cta1={<Btn href={LINKS.bookBay} size="lg">Get A Quote</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.memberCorporate}>View Corporate Rates</Btn>}
       />
@@ -1151,6 +1166,7 @@ function ClubFittingsPage() {
     <>
       <PageHero title="Find The Right Clubs" titleGreen="For Your Swing"
         subtitle="Skip the guesswork. We use Trackman data to match your clubs to how you actually swing."
+        image={leagueTeamPhoto} imageAlt="The Jacket team outside the venue"
         cta1={<Btn href={LINKS.clubFitting} size="lg">Book A Fitting</Btn>}
       />
       <Sec>
@@ -1187,6 +1203,7 @@ function TechnologyPage() {
     <>
       <PageHero title="Meet Trackman" titleGreen="iO"
         subtitle="The same tour-grade tracking technology the pros use, built into every bay."
+        image={memberTechBay} imageAlt="The Trackman iO technology setup at The Jacket"
         cta1={<Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>}
       />
       <Sec>
@@ -1214,6 +1231,7 @@ function ContactPage() {
     <>
       <PageHero title="Get In Touch" titleGreen="With The Jacket"
         subtitle="Questions about booking, memberships, or a group event? Our team is happy to help."
+        image={foodBurger} imageAlt="A burger and waffle fries served at The Back 9 Bar and Grill"
         cta1={<Btn href={LINKS.bookBay} size="lg">Book A Bay</Btn>}
         cta2={<Btn variant="outline" size="lg" href={LINKS.food}>View Our Menu</Btn>}
       />
